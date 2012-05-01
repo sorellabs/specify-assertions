@@ -74,15 +74,23 @@ var Assertion = Base.derive({
     this.store('property', property.toString())
     this.describe('satisfy {:property}')
 
-    if (!property(this._expectation))
+    if (!this._test(property, this._expectation))
       throw make_error(format(this._messages[this._kind], this._params))
 
     return this }
 
 
+, _test:
+  function _test(property, expectation) {
+    return property(expectation) }
+
+
 , not:
   function _not() {
+    var test = this._test
+
     this._kind = 'refutation'
+    this._test = function(){ return !test.apply(this, arguments) }
     return this }
 })
 
@@ -129,9 +137,12 @@ function format(string, mappings) {
 
   function resolve_identifier(match, mod, key) {
     return starts_with_p(mod, '\\')?  '{:' + key + '}'
-    :      key in mappings?           JSON.stringify(mappings[key])
+    :      key in mappings?           stringify(mappings[key])
     :      /* otherwise */            '' }}
 
+function stringify(o) {
+  return typeof o == 'function'?  o.toString()
+  :      /* otherwise */          JSON.stringify(o) }
 
 function make_error(message) {
   var e = Error.call(Object.create(Error.prototype), message)
