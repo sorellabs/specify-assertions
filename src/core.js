@@ -172,7 +172,8 @@ function format(string, mappings) {
     :      /* otherwise */            '' }}
 
 function stringify(o) {
-  return typeof o == 'function'?  '`' + o.toString() + '`'
+  return typeof o == 'function'?    o.name?          '[Function: ' + o.name + ']'
+                                  : /* otherwise */  '`' + o.toString() + '`'
   :      /* otherwise */          JSON.stringify(o) }
 
 function make_error(message) {
