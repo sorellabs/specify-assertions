@@ -44,6 +44,8 @@ function arguments_p() {
 
 function error_p(o) { return o instanceof Error }
 
+function re_p(o){ return class_of(o) == 'RegExp' }
+
 
 // Deep strict equality
 //
@@ -103,7 +105,7 @@ function eq_object(actual, expected) {
 
 // -- Core matchers --
 Assertion.define('equals'
-, 'to be equal to {:actual}'
+, 'equal {:actual}.'
 , function(actual) {
     this.store('actual', actual)
     this.satisfy(function(expected) { return deep_equal(actual, expected) })
@@ -111,7 +113,7 @@ Assertion.define('equals'
 
 
 Assertion.define('same'
-, 'to be {:actual}'
+, 'be {:actual}.'
 , function(actual) {
     this.store('actual', actual)
     this.satisfy(function(expected){ return expected === actual })
@@ -119,14 +121,14 @@ Assertion.define('same'
 
 
 Assertion.define('property'
-, 'to have property "{:property}"'
+, 'have property "{:property}".'
 , function(prop, value) {
     this.store('property', prop)
     if (value) {
       this.satisfy(function(expected) {
         this.store('value', value)
         this.store('actual', expected[prop])
-        this.describe('to have property "{:property}" with value {:value}, got {:actual}', true)
+        this.describe('have property "{:property}" with value {:value}, got {:actual}', true)
         return expected[prop] === value })}
     else
       this.satisfy(function(expected){ return prop in expected })
@@ -134,7 +136,7 @@ Assertion.define('property'
 
 
 Assertion.define('contains'
-, 'to contain {:value}'
+, 'contain {:value}.'
 , function(value) {
     this.store('value', value)
     this.satisfy(function(expected){ return expected.indexOf(value) !== -1 })
@@ -142,14 +144,14 @@ Assertion.define('contains'
 
 
 Assertion.define('ok'
-, 'to be ok'
+, 'be ok.'
 , function() {
     this.satisfy(function(expected){ return !!expected })
 })
 
 
 Assertion.define('empty'
-, 'to be empty'
+, 'be empty.'
 , function() {
     this.satisfy(function(expected){ return array_p(expected)?  expected.length == 0
                                      :      /* otherwise */     keys(expected).length == 0 })
@@ -157,7 +159,7 @@ Assertion.define('empty'
 
 
 Assertion.define(['above', '>']
-, 'to be above {:value}'
+, 'be above {:value}.'
 , function(value) {
     this.store('value', value)
     this.satisfy(function(expected){ return expected > value })
@@ -165,7 +167,7 @@ Assertion.define(['above', '>']
 
 
 Assertion.define(['below', '<']
-, 'to be below {:value}'
+, 'be below {:value}.'
 , function(value) {
     this.store('value', value)
     this.satisfy(function(expected){ return expected < value })
@@ -173,7 +175,7 @@ Assertion.define(['below', '<']
 
 
 Assertion.define('within'
-, 'to be within {:lower} and {:upper}'
+, 'be within {:lower} and {:upper}.'
 , function(lower, upper) {
     this.store('lower', lower)
     this.store('upper', upper)
@@ -182,12 +184,22 @@ Assertion.define('within'
 })
 
 
-Assertion.define('throw'
-, 'to throw {:error}'
+Assertion.define('throws'
+, 'throw {:error}.'
 , function(error) {
     this.store('error', error_p(error)? error.name : error)
     this.satisfy(function(expected){ try { expected() }
                                      catch(e) {
-                                         error_p(e)?      error.name == e.name
-                                       : /* otherwise */  deep_equal(error, e) }})
+                                       return error_p(e)?      error.name == e.name
+                                       :      re_p(error)?     error.test(e)
+                                       :      /* otherwise */  deep_equal(error, e) }})
+})
+
+
+Assertion.define('type'
+, 'have type {:type}.'
+, function(type) {
+    this.store('type', type)
+    this.satisfy(function(expected){ return /A-Z/.test(type)?  class_of(expected) == type
+                                     :      /* otherwise */    typeof expected == type })
 })
