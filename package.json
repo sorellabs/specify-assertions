@@ -1,0 +1,20 @@
+{
+  "author": "Quildreen Motta <quildreen@gmail.com> (http://killdream.github.com/)",
+  "name": "frame",
+  "description": "BDD testing minus verbosity",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/killdream/frame.git"
+  },
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "engines": {
+    "node": "~0.6.7"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "optionalDependencies": {}
+}
