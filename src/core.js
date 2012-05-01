@@ -23,13 +23,14 @@
 
 var Base = require('boo').Base
 var array_p = Array.isArray
+var slice   = [].slice
 
 
 var Assertion = Base.derive({
   init:
   function _init(value) {
-    this._messages    = {}
-    this._kind        = 'assertion'
+    this._prelude     = 'to'
+    this._message     = ''
     this._params      = {}
     this._times       = 100
 
@@ -51,11 +52,16 @@ var Assertion = Base.derive({
 
 , describe:
   function _describe(message, overwrite) {
-    if (this._messages.assertion && !overwrite) return this
+    if (this._message && !overwrite) return this
 
-    this._messages.assertion  = 'Expected {:expected} to '     + message
-    this._messages.refutation = 'Expected {:expected} to not ' + message
+    this._message = message
     return this }
+
+
+, message:
+  function _message() {
+    return format( 'Expected {:expected} ' + this._prelude + ' ' + this._message
+                 , this._params )}
 
 
 , define:
@@ -71,27 +77,52 @@ var Assertion = Base.derive({
 
 , satisfy:
   function _satisfy(property) {
-    this.store('property', property.toString())
-    this.describe('satisfy {:property}')
+    this.store('property', property)
+    this.describe('satisfy {:property}.')
 
     if (!this._test(property, this._expectation))
-      throw make_error(format(this._messages[this._kind], this._params))
+      throw make_error(this.message())
 
     return this }
 
 
 , _test:
-  function _test(property, expectation) {
-    return property(expectation) }
+  function _test(property) {
+    return property.apply(null, slice.call(arguments, 1)) }
 
 
 , not:
   function _not() {
     var test = this._test
 
-    this._kind = 'refutation'
+    this._prelude = 'to not'
     this._test = function(){ return !test.apply(this, arguments) }
     return this }
+
+
+, all:
+  function _all(generators) {
+    var test   = this._test
+    this._test = random_property_test
+    return this
+
+    function random_property_test(prop, expectation) {
+      var ok    = true
+      var times = 0
+      var args, value
+
+      while (ok && times++ < this._times) {
+        args  = generators.map(function(v){ return v() })
+        value = expectation.apply(null, args)
+        ok    = test(prop, value) }
+
+      this.store('‹times', times)
+      this.store('‹args', args)
+      this.store('‹result', value)
+      this._prelude  = ', given the arguments {:‹args}, '
+                     + this._prelude + ' yield values that will'
+      this._message += '  Failed after {:‹times} test(s) by yielding {:‹result}'
+      return ok }}
 })
 
 
@@ -141,7 +172,7 @@ function format(string, mappings) {
     :      /* otherwise */            '' }}
 
 function stringify(o) {
-  return typeof o == 'function'?  o.toString()
+  return typeof o == 'function'?  '`' + o.toString() + '`'
   :      /* otherwise */          JSON.stringify(o) }
 
 function make_error(message) {
