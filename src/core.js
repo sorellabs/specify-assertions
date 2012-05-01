@@ -50,9 +50,9 @@ var Assertion = Base.derive({
 
 
 , describe:
-  function _describe(message) {
-    if (this._messages.assertion) return this
-    
+  function _describe(message, overwrite) {
+    if (this._messages.assertion && !overwrite) return this
+
     this._messages.assertion  = 'Expected {:expected} to '     + message
     this._messages.refutation = 'Expected {:expected} to not ' + message
     return this }

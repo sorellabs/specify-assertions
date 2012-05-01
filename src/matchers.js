@@ -25,39 +25,169 @@ var Assertion = require('./core').Assertion
 
 var array_p   = Array.isArray
 var keys      = Object.keys
+var slice     = [].slice.call.bind([].slice)
+
+function class_of(subject) {
+  return {}.toString.call(subject).slice(8, -1) }
+
+function all(xs, f, idx) {
+  return slice(xs, idx || 0).every(f) }
+
+function class_p(cls) {
+  return all(arguments, function(o){ return class_of(o) == cls }, 1)}
+
+function type_p(type) {
+  return all(arguments, function(o){ return typeof o == type }, 1) }
+
+function arguments_p() {
+  return all(arguments, function(o){ return class_of(o) == 'Arguments' })}
+
+function error_p(o) { return o instanceof Error }
 
 
-Assertion.define('same', 'to be {:actual}', function(actual) {
-  this.store('actual', actual)
-  this.satisfy(function(expected){ return expected === actual })})
+// Deep strict equality
+//
+// Based on Node.js's assert module's deepEqual
+function deep_equal(actual, expected) {
+  return actual === expected
+  ||     eq_date(actual, expected)
+  ||     eq_regexp(actual, expected)
+  ||     eq_abstract(actual, expected)
+  ||     eq_object(actual, expected)
+  ||     false }
+
+function eq_date(actual, expected) {
+  return class_p('Date', actual, expected)
+  &&     actual.getTime() === expected.getTime() }
+
+function eq_regexp(actual, expected) {
+  return class_p('RegExp', actual, expected)
+  &&     actual.source     === expected.source
+  &&     actual.global     === expected.global
+  &&     actual.multiline  === expected.multiline
+  &&     actual.lastIndex  === expected.lastIndex
+  &&     actual.ignoreCase === expected.ignoreCase }
+
+function eq_abstract(actual, expected) {
+  return !type_p('object', actual, expected)
+  &&     actual == expected }
+
+function eq_object(actual, expected) {
+  var a, b
+
+  if (actual == null || expected == null)
+    return false
+
+  if (actual.prototype !== expected.prototype)
+    return false
+
+  if (arguments_p(actual)) {
+    if (!arguments_p(expected))  return false
+    return deep_equal(slice(actual), slice(expected)) }
+
+  try {
+    a = keys(actual)
+    b = keys(expected) }
+  catch(e) {
+    return false }
+
+  if (a.length !== b.length)  return false
+
+  a.sort()
+  b.sort()
+  return a.every(function(k, i){ return k == b[i]                             })
+  &&     a.every(function(k, i){ return deep_equal(actual[k], expected[b[i]]) })}
 
 
-Assertion.define('contains', 'to contain {:value}', function(value) {
-  this.store('value', value)
-  this.satisfy(function(expected){ return expected.indexOf(value) !== -1 })})
 
 
-Assertion.define('ok', 'to be ok', function() {
-  this.satisfy(function(expected){ return !!expected })})
+// -- Core matchers --
+Assertion.define('equals'
+, 'to be equal to {:actual}'
+, function(actual) {
+    this.store('actual', actual)
+    this.satisfy(function(expected) { return deep_equal(actual, expected) })
+})
 
 
-Assertion.define('empty', 'to be empty', function() {
-  this.satisfy(function(expected){ return array_p(expected)?  expected.length == 0
-                                   :      /* otherwise */     keys(expected).length == 0 })})
+Assertion.define('same'
+, 'to be {:actual}'
+, function(actual) {
+    this.store('actual', actual)
+    this.satisfy(function(expected){ return expected === actual })
+})
 
 
-Assertion.define(['above', '>'], 'to be above {:value}', function(value) {
-  this.store('value', value)
-  this.satisfy(function(expected){ return expected > value })})
+Assertion.define('property'
+, 'to have property "{:property}"'
+, function(prop, value) {
+    this.store('property', prop)
+    if (value) {
+      this.satisfy(function(expected) {
+        this.store('value', value)
+        this.store('actual', expected[prop])
+        this.describe('to have property "{:property}" with value {:value}, got {:actual}', true)
+        return expected[prop] === value })}
+    else
+      this.satisfy(function(expected){ return prop in expected })
+})
 
 
-Assertion.define(['below', '<'], 'to be below {:value}', function(value) {
-  this.store('value', value)
-  this.satisfy(function(expected){ return expected < value })})
+Assertion.define('contains'
+, 'to contain {:value}'
+, function(value) {
+    this.store('value', value)
+    this.satisfy(function(expected){ return expected.indexOf(value) !== -1 })
+})
 
 
-Assertion.define('within', 'to be within {:lower} and {:upper}', function(lower, upper) {
-  this.store('lower', lower)
-  this.store('upper', upper)
-  this.satisfy(function(expected){ return expected >= lower
-                                   &&     expected <= upper })})
+Assertion.define('ok'
+, 'to be ok'
+, function() {
+    this.satisfy(function(expected){ return !!expected })
+})
+
+
+Assertion.define('empty'
+, 'to be empty'
+, function() {
+    this.satisfy(function(expected){ return array_p(expected)?  expected.length == 0
+                                     :      /* otherwise */     keys(expected).length == 0 })
+})
+
+
+Assertion.define(['above', '>']
+, 'to be above {:value}'
+, function(value) {
+    this.store('value', value)
+    this.satisfy(function(expected){ return expected > value })
+})
+
+
+Assertion.define(['below', '<']
+, 'to be below {:value}'
+, function(value) {
+    this.store('value', value)
+    this.satisfy(function(expected){ return expected < value })
+})
+
+
+Assertion.define('within'
+, 'to be within {:lower} and {:upper}'
+, function(lower, upper) {
+    this.store('lower', lower)
+    this.store('upper', upper)
+    this.satisfy(function(expected){ return expected >= lower
+                                     &&     expected <= upper })
+})
+
+
+Assertion.define('throw'
+, 'to throw {:error}'
+, function(error) {
+    this.store('error', error_p(error)? error.name : error)
+    this.satisfy(function(expected){ try { expected() }
+                                     catch(e) {
+                                         error_p(e)?      error.name == e.name
+                                       : /* otherwise */  deep_equal(error, e) }})
+})
