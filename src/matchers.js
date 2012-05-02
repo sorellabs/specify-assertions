@@ -190,7 +190,8 @@ Assertion.define('throws'
     this.store('error', error_p(error)? error.name : error)
     this.satisfy(function(expected){ try { expected() }
                                      catch(e) {
-                                       return error_p(e)?      error.name == e.name
+                                       return !error?         true
+                                       :      error_p(e)?      error.name == e.name
                                        :      re_p(error)?     error.test(e)
                                        :      /* otherwise */  deep_equal(error, e) }})
 })
