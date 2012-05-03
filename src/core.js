@@ -1,4 +1,4 @@
-/// core.js --- The core of Frame assertions
+/// core.js --- The core of Noire assertions
 //
 // Copyright (c) 2012 Quildreen Motta
 //
@@ -116,12 +116,12 @@ var Assertion = Base.derive({
         value = expectation.apply(null, args)
         ok    = test(prop, value) }
 
-      this.store('‹times', times)
-      this.store('‹args', args)
-      this.store('‹result', value)
-      this._prelude  = ', given the arguments {:‹args}, '
+      this.store('‹time›s', times)
+      this.store('‹args›', args)
+      this.store('‹result›', value)
+      this._prelude  = ', given the arguments {:‹args›}, '
                      + this._prelude + ' yield values that will'
-      this._message += '  Failed after {:‹times} test(s) by yielding {:‹result}'
+      this._message += '  Failed after {:‹times›} test(s) by yielding {:‹result›}'
       return ok }}
 })
 
