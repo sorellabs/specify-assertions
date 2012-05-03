@@ -121,14 +121,14 @@ Assertion.define('same'
 
 
 Assertion.define('property'
-, 'have property "{:property}".'
+, 'have property "{:key}".'
 , function(prop, value) {
-    this.store('property', prop)
+    this.store('key', prop)
     if (value) {
       this.satisfy(function(expected) {
         this.store('value', value)
         this.store('actual', expected[prop])
-        this.describe('have property "{:property}" with value {:value}, got {:actual}', true)
+        this.describe('have property "{:key}" with value {:value}, got {:actual}', true)
         return expected[prop] === value }.bind(this))}
     else
       this.satisfy(function(expected){ return prop in expected })
