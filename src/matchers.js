@@ -129,7 +129,7 @@ Assertion.define('property'
         this.store('value', value)
         this.store('actual', expected[prop])
         this.describe('have property "{:property}" with value {:value}, got {:actual}', true)
-        return expected[prop] === value })}
+        return expected[prop] === value }.bind(this))}
     else
       this.satisfy(function(expected){ return prop in expected })
 })
