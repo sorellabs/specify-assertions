@@ -107,9 +107,10 @@ var Assertion = Base.derive({
     this.store('‹invoke:args›', args)
     this._prelude = ', when invoking method {:‹invoke:method›} with '
                   + '{:‹invoke:args›} ' + this._prelude
-
     var test = this._test
     this._test = function(p){ this._expectation = this._expectation[method].apply(this._expectation, args)
+                              this._message += ' Yielded {:‹invoke:result›} instead.'
+                              this.store('‹invoke:result›', this._expectation)
                               return test.apply(this, [p, this._expectation]) }
     return this }
 
