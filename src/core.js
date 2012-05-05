@@ -95,7 +95,7 @@ var Assertion = Base.derive({
   function _not() {
     var test = this._test
 
-    this._prelude = 'to not'
+    this._prelude += ' not'
     this._test = function(){ return !test.apply(this, arguments) }
     return this }
 
