@@ -199,9 +199,11 @@ Assertion.define('throws'
 
 
 Assertion.define('type'
-, 'have type {:type}.'
+, 'have type {:type}, got {:actual-type} instead.'
 , function(type) {
     this.store('type', type)
-    this.satisfy(function(expected){ return /A-Z/.test(type)?  class_of(expected) == type
-                                     :      /* otherwise */    typeof expected == type })
+    this.satisfy(function(expected){ var actual = /^[A-Z]/.test(type)?  class_of(expected)
+                                                : /* otherwise */       typeof expected
+                                     this.store('actual-type', actual)
+                                     return type === actual }.bind(this))
 })
