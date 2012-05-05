@@ -109,8 +109,8 @@ var Assertion = Base.derive({
                   + '{:‹invoke:args›} ' + this._prelude
 
     var test = this._test
-    this._test = function(){ this._expectation = this._expectation[method].apply(this._expectation, args)
-                             return test.apply(this, arguments) }
+    this._test = function(p){ this._expectation = this._expectation[method].apply(this._expectation, args)
+                              return test.apply(this, [p, this._expectation]) }
     return this }
 
 
