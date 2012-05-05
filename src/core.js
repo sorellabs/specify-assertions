@@ -77,8 +77,8 @@ var Assertion = Base.derive({
 
 , satisfy:
   function _satisfy(property) {
-    this.store('property', property)
-    this.describe('satisfy {:property}.')
+    this.store('‹satisfy:property›', property)
+    this.describe('satisfy {:‹satisfy:property›}.')
 
     if (!this._test(property, this._expectation))
       throw make_error(this.message())
@@ -100,6 +100,20 @@ var Assertion = Base.derive({
     return this }
 
 
+, invoke:
+  function _invoke(method) {
+    var args = [].slice.call(arguments, 1)
+    this.store('‹invoke:method›', method)
+    this.store('‹invoke:args›', args)
+    this._prelude = ', when invoking method {:‹invoke:method›} with '
+                  + '{:‹invoke:args›} ' + this._prelude
+
+    var test = this._test
+    this._test = function(){ this._expectation = this._expectation[method].apply(this._expectation, args)
+                             return test.apply(this, arguments) }
+    return this }
+
+
 , all:
   function _all(generators) {
     var test   = this._test
@@ -116,12 +130,12 @@ var Assertion = Base.derive({
         value = expectation.apply(null, args)
         ok    = test(prop, value) }
 
-      this.store('‹time›s', times)
-      this.store('‹args›', args)
-      this.store('‹result›', value)
-      this._prelude  = ', given the arguments {:‹args›}, '
+      this.store('‹all:times›', times)
+      this.store('‹all:args›', args)
+      this.store('‹all:result›', value)
+      this._prelude  = ', given the arguments {:‹all:args›}, '
                      + this._prelude + ' yield values that will'
-      this._message += '  Failed after {:‹times›} test(s) by yielding {:‹result›}'
+      this._message += '  Failed after {:‹all:times›} test(s) by yielding {:‹all:result›}'
       return ok }}
 })
 
