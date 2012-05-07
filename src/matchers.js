@@ -210,3 +210,10 @@ Assertion.define('type'
                                      this.store('actual-type', actual)
                                      return type === actual }.bind(this))
 })
+
+
+Assertion.define('matches'
+, 'match the regular expression {:re}.'
+, function(re) {
+    this.store('re', re.toString())
+    this.satisfy(function(expected) { return re.test(expected) })})
