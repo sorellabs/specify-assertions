@@ -191,7 +191,7 @@ Assertion.define('throws'
 , function(error) {
     this.store('error', error_p(error)? error.name : error)
     if (!error) this.describe('throw anything.', true)
-    this.satisfy(function(expected){ try { expected(); return true }
+    this.satisfy(function(expected){ try { expected() }
                                      catch(e) {
                                        return !error?           true
                                        :      string_p(error)?  error == e.name
