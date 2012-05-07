@@ -46,6 +46,8 @@ function error_p(o) { return o instanceof Error }
 
 function re_p(o){ return class_of(o) == 'RegExp' }
 
+function string_p(o){ return class_of(o) == 'String' }
+
 
 // Deep strict equality
 //
@@ -189,12 +191,13 @@ Assertion.define('throws'
 , function(error) {
     this.store('error', error_p(error)? error.name : error)
     if (!error) this.describe('throw anything.', true)
-    this.satisfy(function(expected){ try { expected() }
+    this.satisfy(function(expected){ try { expected(); return true }
                                      catch(e) {
-                                       return !error?         true
-                                       :      error_p(e)?      error.name == e.name
-                                       :      re_p(error)?     error.test(e)
-                                       :      /* otherwise */  deep_equal(error, e) }})
+                                       return !error?           true
+                                       :      string_p(error)?  error == e.name
+                                       :      error_p(error)?   error.name == e.name
+                                       :      re_p(error)?      error.test(e.name)
+                                       :      /* otherwise */   deep_equal(error, e) }})
 })
 
 
