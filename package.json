@@ -2,7 +2,7 @@
   "author": "Quildreen Motta <quildreen@gmail.com> (http://killdream.github.com/)",
   "name": "noire",
   "description": "BDD testing minus verbosity",
-  "version": "0.1.2",
+  "version": "0.2.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/killdream/noire.git"
