@@ -122,18 +122,10 @@ Assertion.define('same'
 })
 
 
-Assertion.define('property'
-, 'have property {:key}.'
-, function(prop, value) {
-    this.store('key', prop)
-    if (value) {
-      this.satisfy(function(expected) {
-        this.store('value', value)
-        this.store('actual', expected[prop])
-        this.describe('have property {:key} with value {:value}, got {:actual}', true)
-        return expected[prop] === value }.bind(this))}
-    else
-      this.satisfy(function(expected){ return prop in expected })
+Assertion.define('exists'
+, 'exist.'
+, function(value) {
+    this.satisfy(function(expected){ return expected !== undefined })
 })
 
 
