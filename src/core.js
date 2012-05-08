@@ -111,7 +111,19 @@ var Assertion = Base.derive({
     this._test = function(p){ this._expectation = this._expectation[method].apply(this._expectation, args)
                               this._message += ' Yielded {:‹invoke:result›} instead.'
                               this.store('‹invoke:result›', this._expectation)
-                              return test.apply(this, [p, this._expectation]) }
+                              return test.call(this, p, this._expectation) }
+    return this }
+
+
+, property:
+  function _property(name) {
+    this.store('‹property:name›', name)
+    this._prelude += ' yield a value for the property {:‹property:name›} that should'
+    var test = this._test
+    this._test = function(p){ this._expectation = this._expectation[name]
+                              this._message += ' Got {:‹property:actual›} instead.'
+                              this.store('‹property:actual›', this._expectation)
+                              return test.call(this, p, this._expectation) }
     return this }
 
 
@@ -135,7 +147,7 @@ var Assertion = Base.derive({
       this.store('‹all:args›', args)
       this.store('‹all:result›', value)
       this._prelude  = ', given the arguments {:‹all:args›}, '
-                     + this._prelude + ' yield values that will'
+                     + this._prelude + ' yield values that should'
       this._message += '  Failed after {:‹all:times›} test(s) by yielding {:‹all:result›}'
       return ok }}
 })
