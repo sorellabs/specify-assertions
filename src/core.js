@@ -201,7 +201,8 @@ function format(string, mappings) {
 function stringify(o) {
   return typeof o == 'function'?    o.name?          '[Function: ' + o.name + ']'
                                   : /* otherwise */  '`' + o.toString() + '`'
-  :      /* otherwise */          JSON.stringify(o) }
+  :      /* otherwise */          function(){ try      { return JSON.stringify(o) }
+                                              catch(e) { return '#<cyclic: ' + String(o) + '>' }}()}
 
 function make_error(message) {
   var e = Error.call(Object.create(Error.prototype), message)
