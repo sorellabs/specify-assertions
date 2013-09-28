@@ -17,7 +17,7 @@ The simplest and loveliest way of writing tests in JavaScript (or LiveScript) :)
   - **Straight-forward**: Alright should get out of your way and just let you
     define your tests with what you already know: plain JavaScript.
 
-  - **No verbosity**: We don't want `expect(x).to.eventually.have.boring...`
+  - **No verbosity**: We don't want `expect(x).to.eventually.be.boring...`
 
   - **Helpful error messages**: When things go wrong, Alright should do its
     best to show you exactly what's wrong and how you might fix it.
