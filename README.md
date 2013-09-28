@@ -41,6 +41,7 @@ var alright = require('alright')
 // You need to compile stuff to use the lovely assertion style:
 alright.compile(function() {
 
+  // Code only has access to things defined in this scope.
   alright(typeof 'foo' === String)
   alright(deepEqual(bar, 'foo'))
   alright(foo.flavours.length === 3)

@@ -2,7 +2,7 @@
   "author": "Quildreen Motta <quildreen@gmail.com> (http://killdream.github.io/)",
   "name": "alright",
   "description": "Beautiful assertions without any verbosity.",
-  "version": "0.2.3",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/hifivejs/alright.git"
