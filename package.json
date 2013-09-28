@@ -1,11 +1,11 @@
 {
-  "author": "Quildreen Motta <quildreen@gmail.com> (http://killdream.github.com/)",
-  "name": "noire",
-  "description": "BDD testing minus verbosity",
+  "author": "Quildreen Motta <quildreen@gmail.com> (http://killdream.github.io/)",
+  "name": "alright",
+  "description": "Beautiful assertions without any verbosity.",
   "version": "0.2.3",
   "repository": {
     "type": "git",
-    "url": "git://github.com/killdream/noire.git"
+    "url": "git://github.com/hifivejs/alright.git"
   },
   "main": "./src/index.js",
   "scripts": {
