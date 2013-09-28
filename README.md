@@ -4,7 +4,7 @@ Alright!
 [![Build Status](https://travis-ci.org/hifivejs/alright.png)](https://travis-ci.org/hifivejs/alright)
 [![Dependencies Status](https://david-dm.org/hifivejs/alright.png)](https://david-dm.org/hifivejs/alright.png)
 [![NPM version](https://badge.fury.io/js/alright.png)](http://badge.fury.io/js/alright)
-[![stable](http://hughsk.github.io/stability-badges/dist/stable.svg)](http://github.com/hughsk/stability-badges)
+[![experimental](http://hughsk.github.io/stability-badges/dist/experimental.svg)](http://github.com/hughsk/stability-badges)
 
 
 [![browser support](http://ci.testling.com/hifivejs/alright.png)](http://ci.testling.com/hifivejs/alright)
