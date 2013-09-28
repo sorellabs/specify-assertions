@@ -23,3 +23,87 @@
 // LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+// -- Dependencies -----------------------------------------------------
+var boo      = require('boo')
+var flaw     = require('flaw')
+var parse    = require('esprima').parse
+var generate = require('escodegen').generate
+var λ        = require('athena')
+
+
+// -- Aliases ----------------------------------------------------------
+var keys    = Object.keys
+var isArray = Array.isArray
+
+// -- Assertion primitives ---------------------------------------------
+var AssertionError = flaw('AssertionError')
+
+function is(condition, message, options) {
+  if (!condition)  throw AssertionError(message, options) }
+
+function isnt(condition, message, options) {
+  is(!condition, message, options) }
+
+
+// -- Macro expansion --------------------------------------------------
+function compile(f) {
+  var source = '(' + f.toString() + ')()'
+  return new Function('alright', generate(transform(source)))({ is: is }) }
+
+function transform(source) {
+  var ast = parse(source, { raw: true, loc: true })
+  return mapTree(rewriteAssertions, ast) }
+
+mapTree = λ.curry(2, mapTree)
+function mapTree(f, node) {
+  if (!(Object(node) === node))  return node
+
+  var result = {}
+  keys(node).forEach(function(key) {
+    var child = node[key]
+
+    isArray(child)?    result[key] = child.map(mapTree(f))
+    : /* otherwise */  result[key] = mapTree(f, child) })
+
+  return f(result) }
+
+function rewriteAssertions(node) {
+  return !isAssertion(node)?  node
+  :      /* otherwise */      makeAssertion(node) }
+
+function makeAssertion(node) {
+  var callee     = node.callee
+  var expression = node.arguments[0]
+  var line       = callee.line
+  var column     = callee.column
+
+  return { type: 'CallExpression'
+         , callee: { type: 'MemberExpression'
+                   , computed: false
+                   , object: { type: 'Identifier'
+                             , name: 'alright'
+                             , loc: callee.loc }
+                   , property: { type: 'Identifier'
+                               , name: 'is'
+                               , loc: { line: line
+                                      , column: column + 'alright.'.length }
+                               , loc: callee.loc }}
+         , arguments: [ expression
+                      , stringify(expression) ]}}
+
+function stringify(node) {
+  return { type: 'Literal', value: generate(node) }}
+
+function isAssertion(node) {
+  return node.type === 'CallExpression'
+  &&     node.callee.type === 'Identifier'
+  &&     node.callee.name === 'alright' }
+
+// -- Exports ----------------------------------------------------------
+module.exports = { is             : is
+                 , isnt           : isnt
+                 , compile        : compile
+                 , AssertionError : AssertionError
+                 }

@@ -14,7 +14,13 @@
   "engines": {
     "node": ">=0.4.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "flaw": "~0.1.0",
+    "boo": "~2.0.0",
+    "esprima": "~1.0.4",
+    "escodegen": "0.0.27",
+    "athena": "~0.2.0"
+  },
   "devDependencies": {},
   "optionalDependencies": {}
 }

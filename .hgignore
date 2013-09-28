@@ -1,4 +1,5 @@
 syntax:glob
+node_modules
 build
 ~*
 npm_debug.log

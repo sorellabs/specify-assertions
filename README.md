@@ -41,9 +41,8 @@ var alright = require('alright')
 // You need to compile stuff to use the lovely assertion style:
 alright.compile(function() {
 
-  alright('foo' instanceof String)
+  alright(typeof 'foo' === String)
   alright(deepEqual(bar, 'foo'))
-  alright(foo.length === 3)
   alright(foo.flavours.length === 3)
 
 })
