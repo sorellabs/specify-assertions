@@ -38,10 +38,18 @@ The simplest and loveliest way of writing tests in JavaScript (or LiveScript) :)
 ```js
 var alright = require('alright')
 
-alright('foo' instanceof String)
-alright(deepEqual(bar, 'foo'))
-alright(foo.length === 3)
-alright(foo.flavours.length === 3)
+// You need to compile stuff to use the lovely assertion style:
+alright.compile(function() {
+
+  alright('foo' instanceof String)
+  alright(deepEqual(bar, 'foo'))
+  alright(foo.length === 3)
+  alright(foo.flavours.length === 3)
+
+})
+
+// Or you can go with the raw thing, like, your choice eh
+alright.is(foo === 'x', 'Asserts that `foo` equals `x`')
 ```
 
 
