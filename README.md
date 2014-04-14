@@ -33,9 +33,9 @@ Beautiful assertion library.
 ## Example
 
 ```ls
-{ alright, equals } = require('alright')
+{ verify, equals } = require('alright')
 
-alright (typeof 'foo' |> equals 'string')
+verify (typeof 'foo' |> equals 'string')
 ```
 
 
