@@ -21,7 +21,11 @@
   },
   "dependencies": {
     "flaw": "^0.1.0",
-    "core.lambda": "^1.0.0"
+    "core.lambda": "^1.0.0",
+    "data.validation": "^1.2.0",
+    "deep-equal": "^0.2.1",
+    "boo": "^2.0.0",
+    "assertion-error": "^1.0.0"
   },
   "devDependencies": {
     "browserify": "^3.33.0",

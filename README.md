@@ -32,10 +32,26 @@ Beautiful assertion library.
 
 ## Example
 
-```ls
-{ verify, equals } = require('alright')
+Using the Sweet.js macros:
 
-verify (typeof 'foo' |> equals 'string')
+```js
+// for macros to work, you need to use 'alright' as your identifier
+var alright = require('alright')
+
+add(a)(b) ==> a + b
+add(a)(b) ==> not a + b
+
+add(a)(b) => equals(a + b)
+add(a)(b) => not equals(a + b)
+```
+
+Using vanilla JavaScript:
+
+```js
+var _ = require('alright')
+
+_.verify(_.equals(a + b, add(a)(b)))
+_.verify(_.not(_.equals(a + b, add(a)(b))))
 ```
 
 
