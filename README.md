@@ -38,11 +38,17 @@ Using the Sweet.js macros:
 // for macros to work, you need to use 'alright' as your identifier
 var alright = require('alright')
 
+// simple assertions
 add(a)(b) ==> a + b
 add(a)(b) ==> not a + b
 
+// anything goes assertions
 add(a)(b) => equals(a + b)
 add(a)(b) => not equals(a + b)
+
+// asynchronous assertions with pure fantasy-land monads
+asyncAdd(a)(b) >=> a + b
+asyncAdd(a)(b) >==> equals(a + b)
 ```
 
 Using vanilla JavaScript:
@@ -52,6 +58,10 @@ var _ = require('alright')
 
 _.verify(_.equals(a + b, add(a)(b)))
 _.verify(_.not(_.equals(a + b, add(a)(b))))
+
+asyncAdd(a)(b).chain(function(x) {
+  return _.verify(_.equals(a + b, x))
+})
 ```
 
 
