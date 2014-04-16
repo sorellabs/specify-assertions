@@ -7,7 +7,7 @@
 		"parser": "gfm"
 	},
 	"opts": {
-		"destination": "./docs/",
+		"destination": "./docs/api",
 		"template": "./node_modules/ink-docstrap/template"
 	},
 	"templates": {

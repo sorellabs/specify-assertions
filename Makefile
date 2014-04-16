@@ -36,7 +36,7 @@ documentation:
 	ABSPATH=$(shell cd "$(dirname "$0")"; pwd) $(MAKE) clean-docs
 
 clean-docs:
-	perl -pi -e "s?$$ABSPATH/??g" ./docs/*.html
+	perl -pi -e "s?$$ABSPATH/??g" ./docs/api/*.html
 
 clean:
 	rm -rf dist build $(TEST_TGT)
