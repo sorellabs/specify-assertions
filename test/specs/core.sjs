@@ -19,7 +19,38 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-module.exports = [ require('./assertions')
-                 , require('./divergence')
-                 , require('./core')
-                 ]
+var spec           = require('hifive')()
+var alright        = global.alright = require('../../lib')
+var claire         = require('claire')
+var AssertionError = require('assertion-error')
+
+// Aliases
+var _      = alright
+var t      = claire.data
+var forAll = claire.forAll
+
+// Specification
+module.exports = spec('Core', function(it, spec) {
+
+  spec('verify()', function(it) {
+    it( 'Should succeed with true if the validation is a success.'
+      , function() {
+          _.verify(_.ok(true)) => true
+      })
+
+    it( 'Should fail with an exception if the validation is a succes.'
+      , function() {
+          function(){ _.verify(_.ok(false)) } should _.raise(AssertionError)
+      })
+  })
+
+  spec('not()', function(it) {
+    it( 'Should swap the validation values.'
+      , function() {
+          var d = _.ok(true)
+          _.not(d).toString()        => 'Validation.Failure(true to not be ok)'
+          _.not(_.not(d)).toString() => d.toString()
+      })
+  })
+
+})
