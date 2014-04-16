@@ -5,3 +5,5 @@ build
 npm_debug.log
 \#*
 .\#*
+docs
+.*
