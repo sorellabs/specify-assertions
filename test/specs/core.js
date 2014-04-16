@@ -19,7 +19,7 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 var spec = require('hifive')();
-var alright = global.alright = require('../../lib');
+var alright = require('../../lib');
 var claire = require('claire');
 var AssertionError = require('assertion-error');
 // Aliases

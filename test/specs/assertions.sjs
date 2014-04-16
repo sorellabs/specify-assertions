@@ -20,7 +20,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 var spec           = require('hifive')()
-var alright        = global.alright = require('../../lib')
+var alright        = require('../../lib')
 var claire         = require('claire')
 var k              = require('core.lambda').constant
 var deepEq         = require('deep-equal')
