@@ -19,6 +19,9 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+require('es5-shim')
+require('es5-shim/es5-sham')
+
 var hifive = require('hifive')
 var tap    = require('hifive-tap')
 var specs  = require('./specs')
