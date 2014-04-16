@@ -22,12 +22,14 @@
 var spec    = require('hifive')()
 var alright = global.alright = require('../../lib')
 var claire  = require('claire')
+var show    = require('util').inspect
 
 // Aliases
 var _      = alright.divergence
 var $      = alright
 var t      = claire.data
 var forAll = claire.forAll
+
 
 // Specification
 module.exports = spec('Divergence', function(it, spec) {
@@ -44,6 +46,26 @@ module.exports = spec('Divergence', function(it, spec) {
           return function(){ _.divergence(a).inverse() } should $.raise(Error)
         }).asTest())
 
+    it( 'Should format the string according to the template and data.'
+       , function() {
+           var d = _.divergence('{:a} == {:b}').make({ a: 'foo', b: ['qux', 1] })
+           d.toString() => (show('foo') + ' == ' + show(['qux', 1]))
+       })
+
   })
- 
+
+  spec('invertibleDivergence()', function(ti) {
+
+    it( 'Should make a divergence and its inverse.'
+      , forAll(t.Id, t.Id).satisfy(function(a, b) {
+          var d = _.invertibleDivergence(a, b).make({})
+          return (
+            d.toString() => a,
+            d.inverse().toString() => b,
+            d.inverse().inverse() => d
+          )
+        }).asTest())
+
+  })
+
 })
