@@ -2,23 +2,33 @@ bin        = $(shell npm bin)
 lsc        = $(bin)/lsc
 browserify = $(bin)/browserify
 jsdoc      = $(bin)/jsdoc
+sjs        = $(bin)/sjs
 uglify     = $(bin)/uglifyjs
 VERSION    = $(shell node -e 'console.log(require("./package.json").version)')
 
+TEST_SRC = $(wildcard test/specs/*.sjs)
+TEST_TGT = ${TEST_SRC:.sjs=.js}
+BUNDLE   = alright
+
+$(TEST_TGT): $(TEST_SRC)
+	$(sjs) --readable-names  \
+	       --module ./macros \
+	       --output $@       \
+	       $<
 
 dist:
 	mkdir -p dist
 
-dist/alright.umd.js: dist
-	$(browserify) lib/index.js --standalone Alright > $@
+dist/$(BUNDLE).umd.js: dist
+	$(browserify) lib/index.js --standalone $(BUNDLE) > $@
 
-dist/alright.umd.min.js: dist/alright.umd.js
+dist/$(BUNDLE).umd.min.js: dist/$(BUNDLE).umd.js
 	$(uglify) --mangle - < $^ > $@
 
 # ----------------------------------------------------------------------
-bundle: dist/alright.umd.js
+bundle: dist/$(BUNDLE).umd.js
 
-minify: dist/alright.umd.min.js
+minify: dist/$(BUNDLE).umd.min.js
 
 documentation:
 	$(jsdoc) --configure jsdoc.conf.json
@@ -28,20 +38,20 @@ clean-docs:
 	perl -pi -e "s?$$ABSPATH/??g" ./docs/*.html
 
 clean:
-	rm -rf dist build
+	rm -rf dist build $(TEST_TGT)
 
-test:
-	$(lsc) test/tap.ls
+test: $(TEST_TGT)
+	node test/tap
 
 package: documentation bundle minify
-	mkdir -p dist/alright-$(VERSION)
-	cp -r docs dist/alright-$(VERSION)
-	cp -r lib dist/alright-$(VERSION)
-	cp dist/*.js dist/alright-$(VERSION)
-	cp package.json dist/alright-$(VERSION)
-	cp README.md dist/alright-$(VERSION)
-	cp LICENCE dist/alright-$(VERSION)
-	cd dist && tar -czf alright-$(VERSION).tar.gz alright-$(VERSION)
+	mkdir -p dist/$(BUNDLE)-$(VERSION)
+	cp -r docs dist/$(BUNDLE)-$(VERSION)
+	cp -r lib dist/$(BUNDLE)-$(VERSION)
+	cp dist/*.js dist/$(BUNDLE)-$(VERSION)
+	cp package.json dist/$(BUNDLE)-$(VERSION)
+	cp README.md dist/$(BUNDLE)-$(VERSION)
+	cp LICENCE dist/$(BUNDLE)-$(VERSION)
+	cd dist && tar -czf $(BUNDLE)-$(VERSION).tar.gz $(BUNDLE)-$(VERSION)
 
 publish: clean
 	npm install
