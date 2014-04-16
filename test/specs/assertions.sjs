@@ -19,12 +19,13 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-var spec    = require('hifive')()
-var alright = global.alright = require('../../lib')
-var claire  = require('claire')
-var k       = require('core.lambda').constant
-var deepEq  = require('deep-equal')
-var extend  = require('boo').extend
+var spec           = require('hifive')()
+var alright        = global.alright = require('../../lib')
+var claire         = require('claire')
+var k              = require('core.lambda').constant
+var deepEq         = require('deep-equal')
+var extend         = require('boo').extend
+var AssertionError = require('assertion-error')
 
 // Aliases
 var _       = alright
@@ -36,11 +37,15 @@ var classOf = Function.call.bind(Object.prototype.toString)
 var Any  = claire.sized(k(10), t.Any)
 var List = function(a){ return claire.sized(k(10), t.Array(a)) }
 var Map  = function(a){ return claire.sized(k(10), t.Object(a)) }
+var Errs = claire.label('Errs', claire.asGenerator(function() {
+  return pick([TypeError, SyntaxError, RangeError, ReferenceError])
+}))
 
 // Helpers
 function notEmpty(as){ return as.length > 0 }
 function pick(as){ return as[Math.floor(Math.random() * as.length)] }
 function shuffle(a){ return a.sort(function(x,y){ return Math.random() - 0.5 })}
+
 
 // Specification
 module.exports = spec('Validations', function(it, spec) {
@@ -69,7 +74,7 @@ module.exports = spec('Validations', function(it, spec) {
           _.equal(a)(b).isSuccess => deepEq(a, b)
         )
       }).asTest())
-      
+
   it( 'ok(α) should succeed whenever α is truthy'
     , forAll(Any).satisfy(function(a) {
         return _.ok(a).isSuccess => !!a
@@ -116,5 +121,14 @@ module.exports = spec('Validations', function(it, spec) {
         return _.have(key)(a).isSuccess => key in a
       }).asTest())
 
+  it( 'raise(α)(β) should succeed whenever β() throws α'
+    , forAll(Errs).satisfy(function(e) {
+        return (
+          function(){ throw e('foo') } should _.raise(e),
+          function(){ throw e('foo') } should _.raise('foo'),
+          function(){ throw e('foo') } should _.raise(/oo/),
+          function(){ throw e('foo') } should not _.raise(AssertionError)
+        )
+    }).asTest())
 
 })

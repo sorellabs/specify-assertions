@@ -24,6 +24,7 @@ var claire = require('claire');
 var k = require('core.lambda').constant;
 var deepEq = require('deep-equal');
 var extend = require('boo').extend;
+var AssertionError = require('assertion-error');
 // Aliases
 var _ = alright;
 var t = claire.data;
@@ -37,6 +38,14 @@ var List = function (a) {
 var Map = function (a) {
     return claire.sized(k(10), t.Object(a));
 };
+var Errs = claire.label('Errs', claire.asGenerator(function () {
+        return pick([
+            TypeError,
+            SyntaxError,
+            RangeError,
+            ReferenceError
+        ]);
+    }));
 // Helpers
 function notEmpty(as) {
     return as.length > 0;
@@ -87,5 +96,16 @@ module.exports = spec('Validations', function (it, spec$2) {
         var keys = shuffle(Object.keys(a).concat(bs));
         var key = pick(keys);
         return alright.verify(alright.equal(key in a)(_.have(key)(a).isSuccess));
+    }).asTest());
+    it('raise(\u03B1)(\u03B2) should succeed whenever \u03B2() throws \u03B1', forAll(Errs).satisfy(function (e) {
+        return alright.verify(_.raise(e)(function () {
+            throw e('foo');
+        })), alright.verify(_.raise('foo')(function () {
+            throw e('foo');
+        })), alright.verify(_.raise(/oo/)(function () {
+            throw e('foo');
+        })), alright.verify(alright.not(_.raise(AssertionError)(function () {
+            throw e('foo');
+        })));
     }).asTest());
 });

@@ -42,7 +42,7 @@ module.exports = spec('Core', function (it, spec$2) {
         it$2('Should swap the validation values.', function () {
             var d = _.ok(true);
             alright.verify(alright.equal('Validation.Failure(true to not be ok)')(_.not(d).toString()));
-            alright.verify(alright.equal(d.toString() + 'a')(_.not(_.not(d)).toString()));
+            alright.verify(alright.equal(d.toString())(_.not(_.not(d)).toString()));
         });
     });
 });
