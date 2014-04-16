@@ -6,6 +6,8 @@ alright
 [![Dependencies Status](https://david-dm.org/robotlolita/alright.png)](https://david-dm.org/robotlolita/alright)
 [![experimental](http://hughsk.github.io/stability-badges/dist/experimental.svg)](http://github.com/hughsk/stability-badges)
 
+[![browser support](http://ci.testling.com/robotlolita/alright.png)](http://ci.testling.com/robotlolita/alright)
+
 
 Beautiful assertion library.
 
@@ -39,16 +41,16 @@ Using the Sweet.js macros:
 var alright = require('alright')
 
 // simple assertions
-add(a)(b) ==> a + b
-add(a)(b) ==> not a + b
+add(a)(b) => a + b
+add(a)(b) => not a + b
 
 // anything goes assertions
-add(a)(b) => equals(a + b)
-add(a)(b) => not equals(a + b)
+add(a)(b) |> equals(a + b)
+add(a)(b) |> not equals(a + b)
 
 // asynchronous assertions with pure fantasy-land monads
 asyncAdd(a)(b) >=> a + b
-asyncAdd(a)(b) >==> equals(a + b)
+asyncAdd(a)(b) >>= equals(a + b)
 ```
 
 Using vanilla JavaScript:
@@ -136,7 +138,6 @@ Then open the file `docs/index.html` in your browser.
 This library assumes an ES5 environment, but can be easily supported in ES3
 platforms by the use of shims. Just include [es5-shim][] :)
 
-[![browser support](http://ci.testling.com/robotlolita/alright.png)](http://ci.testling.com/robotlolita/alright)
 
 ## Licence
 
