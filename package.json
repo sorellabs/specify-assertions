@@ -37,5 +37,17 @@
     "laws": "~0.2.1",
     "claire": "^0.4.1",
     "sweet.js": "^0.5.0"
+  },
+  "testling": {
+    "files": "test/tap.js",
+    "browsers": [
+      "ie/6..latest",
+      "chrome/25..latest",
+      "firefox/20..latest",
+      "safari/latest",
+      "opera/11.0..latest",
+      "iphone/6",
+      "ipad/6"
+    ]
   }
 }
