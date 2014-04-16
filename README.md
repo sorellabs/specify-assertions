@@ -45,12 +45,14 @@ add(a)(b) => a + b
 add(a)(b) => not a + b
 
 // anything goes assertions
-add(a)(b) |> equals(a + b)
-add(a)(b) |> not equals(a + b)
+add(a)(b) should equal(a + b)
+add(a)(b) should not equal(a + b)
 
 // asynchronous assertions with pure fantasy-land monads
-asyncAdd(a)(b) >=> a + b
-asyncAdd(a)(b) >>= equals(a + b)
+asyncAdd(a)(b) will => a + b
+asyncAdd(a)(b) will not => a + b
+asyncAdd(a)(b) will be equal(a + b)
+asyncAdd(a)(b) will not be equal(a + b)
 ```
 
 Using vanilla JavaScript:
