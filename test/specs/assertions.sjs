@@ -20,7 +20,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 var spec    = require('hifive')()
-var alright = require('../../lib')
+var alright = global.alright = require('../../lib')
 var claire  = require('claire')
 var k       = require('core.lambda').constant
 var deepEq  = require('deep-equal')
@@ -61,12 +61,12 @@ module.exports = spec('Validations', function(it, spec) {
         })
   })
 
-  it( 'equals(α, β) should succeed if α and β are structurally equal'
+  it( 'equal(α, β) should succeed if α and β are structurally equal'
     , forAll(Any, Any).satisfy(function(a, b) {
         return (
-          _.equals(a)(a).isSuccess => true,
-          _.equals(b)(b).isSuccess => true,
-          _.equals(a)(b).isSuccess => deepEq(a, b)
+          _.equal(a)(a).isSuccess => true,
+          _.equal(b)(b).isSuccess => true,
+          _.equal(a)(b).isSuccess => deepEq(a, b)
         )
       }).asTest())
       
@@ -75,45 +75,45 @@ module.exports = spec('Validations', function(it, spec) {
         return _.ok(a).isSuccess => !!a
       }).asTest())
 
-  it( 'strictEquals(α, β) should succeed if α and β are strict equal'
+  it( 'strictEqual(α, β) should succeed if α and β are strict equal'
     , forAll(Any, Any).satisfy(function(a, b) {
         return (
-          _.strictEquals(a)(a).isSuccess => a === a,
-          _.strictEquals(b)(b).isSuccess => b === b,
-          _.strictEquals(a)(b).isSuccess => a === b
+          _.strictEqual(a)(a).isSuccess => a === a,
+          _.strictEqual(b)(b).isSuccess => b === b,
+          _.strictEqual(a)(b).isSuccess => a === b
         )
       }).asTest())
 
-  it( 'isOfType(α, β) should succeed whenever β is of type α'
+  it( 'beOfType(α, β) should succeed whenever β is of type α'
     , forAll(Any).satisfy(function(a) {
-        return _.isOfType(typeof a)(a).isSuccess => true
+        return _.beOfType(typeof a)(a).isSuccess => true
       }).asTest())
 
-  it( 'isOfClass(α, β) should succeed whenever β has class α'
+  it( 'beOfClass(α, β) should succeed whenever β has class α'
     , forAll(Any).satisfy(function(a) {
-        return _.isOfClass(classOf(a).slice(8, -1))(a).isSuccess => true
+        return _.beOfClass(classOf(a).slice(8, -1))(a).isSuccess => true
       }).asTest())
 
-  it( 'contains(α, β) should succeed whenever β contains α'
+  it( 'contain(α, β) should succeed whenever β contains α'
     , forAll(List(Any)).given(notEmpty).satisfy(function(as) {
         return (
-          _.contains(pick(as))(as).isSuccess => true,
-          _.contains({})(as).isFailure       => true
+          _.contain(pick(as))(as).isSuccess => true,
+          _.contain({})(as).isFailure       => true
         )
       }).asTest())
 
-  it( 'matches(α)(β) should succeed whenever α successfully matches β'
+  it( 'match(α)(β) should succeed whenever α successfully matches β'
     , forAll(t.Str).satisfy(function(a) {
         // TODO
       }).asTest()
     ).disable()
 
-  it( 'has(α)(β) should succeed whenever β has a property α'
+  it( 'have(α)(β) should succeed whenever β has a property α'
     , forAll(Map(t.Int), List(t.Id)).satisfy(function(a, bs) {
         var keys = shuffle(Object.keys(a).concat(bs))
         var key  = pick(keys)
 
-        return _.has(key)(a).isSuccess => key in a
+        return _.have(key)(a).isSuccess => key in a
       }).asTest())
 
 

@@ -6,11 +6,12 @@ sjs        = $(bin)/sjs
 uglify     = $(bin)/uglifyjs
 VERSION    = $(shell node -e 'console.log(require("./package.json").version)')
 
+TEST_DIR = test/specs
 TEST_SRC = $(wildcard test/specs/*.sjs)
 TEST_TGT = ${TEST_SRC:.sjs=.js}
 BUNDLE   = alright
 
-$(TEST_TGT): $(TEST_SRC)
+$(TEST_DIR)/%.js: $(TEST_DIR)/%.sjs
 	$(sjs) --readable-names  \
 	       --module ./macros \
 	       --output $@       \

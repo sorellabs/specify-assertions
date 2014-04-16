@@ -19,6 +19,31 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-module.exports = [ require('./assertions')
-                 , require('./divergence')
-                 ]
+var spec    = require('hifive')()
+var alright = global.alright = require('../../lib')
+var claire  = require('claire')
+
+// Aliases
+var _      = alright.divergence
+var $      = alright
+var t      = claire.data
+var forAll = claire.forAll
+
+// Specification
+module.exports = spec('Divergence', function(it, spec) {
+
+  spec('divergence()', function(it) {
+
+    it( 'Should make a divergence with the given message.'
+      , forAll(t.Id).satisfy(function(a) {
+          return _.divergence(a).make({}).toString() => a
+        }).asTest())
+ 
+    it( 'Should not be invertible'
+      , forAll(t.Str).satisfy(function(a) {
+          return function(){ _.divergence(a).inverse() } should $.raise(Error)
+        }).asTest())
+
+  })
+ 
+})

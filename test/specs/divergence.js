@@ -18,7 +18,24 @@
 // LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-module.exports = [ require('./assertions')
-                 , require('./divergence')
-                 ]
+var spec = require('hifive')();
+var alright = global.alright = require('../../lib');
+var claire = require('claire');
+// Aliases
+var _ = alright.divergence;
+var $ = alright;
+var t = claire.data;
+var forAll = claire.forAll;
+// Specification
+module.exports = spec('Divergence', function (it, spec$2) {
+    spec$2('divergence()', function (it$2) {
+        it$2('Should make a divergence with the given message.', forAll(t.Id).satisfy(function (a) {
+            return alright.verify(alright.equal(a)(_.divergence(a).make({}).toString()));
+        }).asTest());
+        it$2('Should not be invertible', forAll(t.Str).satisfy(function (a) {
+            return alright.verify($.raise(Error)(function () {
+                _.divergence(a).inverse();
+            }));
+        }).asTest());
+    });
+});

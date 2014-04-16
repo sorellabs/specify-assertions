@@ -19,7 +19,7 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 var spec = require('hifive')();
-var alright = require('../../lib');
+var alright = global.alright = require('../../lib');
 var claire = require('claire');
 var k = require('core.lambda').constant;
 var deepEq = require('deep-equal');
@@ -54,38 +54,38 @@ module.exports = spec('Validations', function (it, spec$2) {
     spec$2('assert()', function (it$2) {
         var divergence = _.divergence.Divergence;
         it$2('Should create a successful validation if the assertion is true.', function () {
-            alright.verify(alright.equals(true)(_.assert(true, divergence).isSuccess));
-            alright.verify(alright.equals(divergence)(_.assert(true, divergence).get()));
+            alright.verify(alright.equal(true)(_.assert(true, divergence).isSuccess));
+            alright.verify(alright.equal(divergence)(_.assert(true, divergence).get()));
         });
         it$2('Should create a failed validation if the assertion fails.', function () {
-            alright.verify(alright.equals(true)(_.assert(false, divergence).isFailure));
-            alright.verify(alright.equals(divergence)(_.assert(false, divergence).swap().get()));
+            alright.verify(alright.equal(true)(_.assert(false, divergence).isFailure));
+            alright.verify(alright.equal(divergence)(_.assert(false, divergence).swap().get()));
         });
     });
-    it('equals(\u03B1, \u03B2) should succeed if \u03B1 and \u03B2 are structurally equal', forAll(Any, Any).satisfy(function (a, b) {
-        return alright.verify(alright.equals(true)(_.equals(a)(a).isSuccess)), alright.verify(alright.equals(true)(_.equals(b)(b).isSuccess)), alright.verify(alright.equals(deepEq(a, b))(_.equals(a)(b).isSuccess));
+    it('equal(\u03B1, \u03B2) should succeed if \u03B1 and \u03B2 are structurally equal', forAll(Any, Any).satisfy(function (a, b) {
+        return alright.verify(alright.equal(true)(_.equal(a)(a).isSuccess)), alright.verify(alright.equal(true)(_.equal(b)(b).isSuccess)), alright.verify(alright.equal(deepEq(a, b))(_.equal(a)(b).isSuccess));
     }).asTest());
     it('ok(\u03B1) should succeed whenever \u03B1 is truthy', forAll(Any).satisfy(function (a) {
-        return alright.verify(alright.equals(!!a)(_.ok(a).isSuccess));
+        return alright.verify(alright.equal(!!a)(_.ok(a).isSuccess));
     }).asTest());
-    it('strictEquals(\u03B1, \u03B2) should succeed if \u03B1 and \u03B2 are strict equal', forAll(Any, Any).satisfy(function (a, b) {
-        return alright.verify(alright.equals(a === a)(_.strictEquals(a)(a).isSuccess)), alright.verify(alright.equals(b === b)(_.strictEquals(b)(b).isSuccess)), alright.verify(alright.equals(a === b)(_.strictEquals(a)(b).isSuccess));
+    it('strictEqual(\u03B1, \u03B2) should succeed if \u03B1 and \u03B2 are strict equal', forAll(Any, Any).satisfy(function (a, b) {
+        return alright.verify(alright.equal(a === a)(_.strictEqual(a)(a).isSuccess)), alright.verify(alright.equal(b === b)(_.strictEqual(b)(b).isSuccess)), alright.verify(alright.equal(a === b)(_.strictEqual(a)(b).isSuccess));
     }).asTest());
-    it('isOfType(\u03B1, \u03B2) should succeed whenever \u03B2 is of type \u03B1', forAll(Any).satisfy(function (a) {
-        return alright.verify(alright.equals(true)(_.isOfType(typeof a)(a).isSuccess));
+    it('beOfType(\u03B1, \u03B2) should succeed whenever \u03B2 is of type \u03B1', forAll(Any).satisfy(function (a) {
+        return alright.verify(alright.equal(true)(_.beOfType(typeof a)(a).isSuccess));
     }).asTest());
-    it('isOfClass(\u03B1, \u03B2) should succeed whenever \u03B2 has class \u03B1', forAll(Any).satisfy(function (a) {
-        return alright.verify(alright.equals(true)(_.isOfClass(classOf(a).slice(8, -1))(a).isSuccess));
+    it('beOfClass(\u03B1, \u03B2) should succeed whenever \u03B2 has class \u03B1', forAll(Any).satisfy(function (a) {
+        return alright.verify(alright.equal(true)(_.beOfClass(classOf(a).slice(8, -1))(a).isSuccess));
     }).asTest());
-    it('contains(\u03B1, \u03B2) should succeed whenever \u03B2 contains \u03B1', forAll(List(Any)).given(notEmpty).satisfy(function (as) {
-        return alright.verify(alright.equals(true)(_.contains(pick(as))(as).isSuccess)), alright.verify(alright.equals(true)(_.contains({})(as).isFailure));
+    it('contain(\u03B1, \u03B2) should succeed whenever \u03B2 contains \u03B1', forAll(List(Any)).given(notEmpty).satisfy(function (as) {
+        return alright.verify(alright.equal(true)(_.contain(pick(as))(as).isSuccess)), alright.verify(alright.equal(true)(_.contain({})(as).isFailure));
     }).asTest());
-    it('matches(\u03B1)(\u03B2) should succeed whenever \u03B1 successfully matches \u03B2', forAll(t.Str).satisfy(function (a) {
+    it('match(\u03B1)(\u03B2) should succeed whenever \u03B1 successfully matches \u03B2', forAll(t.Str).satisfy(function (a) {
     }    // TODO
 ).asTest()).disable();
-    it('has(\u03B1)(\u03B2) should succeed whenever \u03B2 has a property \u03B1', forAll(Map(t.Int), List(t.Id)).satisfy(function (a, bs) {
+    it('have(\u03B1)(\u03B2) should succeed whenever \u03B2 has a property \u03B1', forAll(Map(t.Int), List(t.Id)).satisfy(function (a, bs) {
         var keys = shuffle(Object.keys(a).concat(bs));
         var key = pick(keys);
-        return alright.verify(alright.equals(key in a)(_.has(key)(a).isSuccess));
+        return alright.verify(alright.equal(key in a)(_.have(key)(a).isSuccess));
     }).asTest());
 });
