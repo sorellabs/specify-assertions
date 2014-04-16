@@ -5,5 +5,5 @@ build
 npm_debug.log
 \#*
 .\#*
-docs
+docs/api
 .*
