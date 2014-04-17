@@ -42,7 +42,7 @@ been successfully tested in the following platforms:
 .. raw:: html
 
    <ul class="platform-support">
-     <li class="ie">7.0+</li>
+     <li class="ie">8.0+</li>
      <li class="safari">5.1</li>
      <li class="firefox">15.0+</li>
      <li class="opera">10.0+</li>
