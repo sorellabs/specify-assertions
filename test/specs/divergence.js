@@ -18,15 +18,17 @@
 // LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-var spec = require('hifive')();
+var hifive = require('hifive');
 var alright = require('../../lib');
 var claire = require('claire');
 var show = require('util').inspect;
 // Aliases
+var spec = hifive();
 var _ = alright.divergence;
 var $ = alright;
 var t = claire.data;
 var forAll = claire.forAll;
+hifive.Test.setTimeout(5000);
 // Specification
 module.exports = spec('Divergence', function (it, spec$2) {
     spec$2('divergence()', function (it$2) {

@@ -18,7 +18,7 @@
 // LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-var spec = require('hifive')();
+var hifive = require('hifive');
 var alright = require('../../lib');
 var claire = require('claire');
 var k = require('core.lambda').constant;
@@ -26,10 +26,12 @@ var deepEq = require('deep-equal');
 var extend = require('boo').extend;
 var AssertionError = require('assertion-error');
 // Aliases
+var spec = hifive();
 var _ = alright;
 var t = claire.data;
 var forAll = claire.forAll;
 var classOf = Function.call.bind(Object.prototype.toString);
+hifive.Test.setTimeout(5000);
 // Data types
 var Any = claire.sized(k(10), t.Any);
 var List = function (a) {
