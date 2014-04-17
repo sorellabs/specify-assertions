@@ -42,7 +42,7 @@
   "testling": {
     "files": "test/tap.js",
     "browsers": [
-      "ie/6..latest",
+      "ie/8..latest",
       "chrome/25..latest",
       "firefox/20..latest",
       "safari/latest",
