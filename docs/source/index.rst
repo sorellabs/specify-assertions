@@ -1,22 +1,76 @@
-.. Alright documentation master file, created by
-   sphinx-quickstart on Wed Apr 16 20:40:28 2014.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+Alright —at a glance—
+=====================
 
-Welcome to Alright's documentation!
-===================================
-
-Contents:
-
-.. toctree::
-   :maxdepth: 2
+Alright is a library for asserting particular properties about data in
+JavaScript. The common use for this kind of thing is automated testing (TDD,
+BDD, etc), and Alright can be used with most popular testing frameworks with
+pluggable assertions, such as `Mocha`_.
 
 
+.. rst-class:: overview-list
 
-Indices and tables
-==================
+Guides
+------
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. hlist::
+   :columns: 2
 
+   * :doc:`Getting Started <quickstart/index>`
+       A lighting introduction to Alright, so you can jump straight to
+       testing.
+
+   * :doc:`Discover Alright <user/index>`
+       A thorough tour of Alright's concepts, so you can understand how to best
+       use it for testing your projects.
+
+   * :doc:`Extending Alright <dev/index>`
+       Explains Alright's architecture, so you can extend Alright to support
+       new assertions.
+
+   * `API Reference`_
+       A quick reference of Alright's API, including usage examples.
+
+
+.. index:: platform support
+
+Platform Support
+----------------
+
+Alright runs on all ECMAScript 5-compliant platforms without problems. It's
+been successfully tested in the following platforms:
+
+.. raw:: html
+
+   <ul class="platform-support">
+     <li class="ie">7.0+</li>
+     <li class="safari">5.1</li>
+     <li class="firefox">15.0+</li>
+     <li class="opera">10.0+</li>
+     <li class="chrome">21.0+</li>
+     <li class="nodejs">0.6+</li>
+   </ul>
+
+For legacy, ES3 platforms, like IE's JScript, you'll have to provide user-land
+implementations of the ES5 methods. You can do so by just including the
+`es5-shim`_ library.
+
+
+.. index:: support, tracker, issues
+
+Support
+-------
+
+Alright uses the `Github tracker`_ for tracking bugs and new features.
+
+
+.. index:: licence, license
+
+Licence
+-------
+
+MIT/X11.
+
+.. _Github tracker: https://github.com/robotlolita/alright/issues
+.. _es5-shim: https://github.com/kriskowal/es5-shim
+.. _API Reference: _static/api/index.html
+.. _Mocha: http://visionmedia.github.io/mocha/
