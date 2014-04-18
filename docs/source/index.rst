@@ -21,14 +21,20 @@ Guides
 
    * :doc:`Discover Alright <user/index>`
        A thorough tour of Alright's concepts, so you can understand how to best
-       use it for testing your projects.
+       use it for testing your projects, and extend it with new assertions.
 
-   * :doc:`Extending Alright <dev/index>`
-       Explains Alright's architecture, so you can extend Alright to support
-       new assertions.
+   * :doc:`Contributing <dev/index>`
+       All you need to know to contribute to the Alright library!
 
    * `API Reference`_
        A quick reference of Alright's API, including usage examples.
+
+.. toctree::
+   :hidden:
+   
+   quickstart/index
+   user/index
+   dev/index
 
 
 .. index:: platform support
