@@ -269,6 +269,12 @@ be returned from the testing function. These will be supported in the next
 version of the `Hi-Five`_ testing library.
 
 
+Macros
+======
+
+
+
+
 
 .. _spice: https://github.com/robotlolita/spice#formatstring-mappings
 .. _Data.Validation: https://github.com/folktale/data.validation
