@@ -236,7 +236,37 @@ assertions for testing frameworks that expect errors to be thrown, testing
 frameworks that expect specific functions to be called, or even asynchronous
 assertions using promises or any other concept.
 
+Alright ships out of the box with support for synchronous assertions by
+throwing errors when expectations aren't met, and asynchronous assertions for
+`Promises/A+`_, `Fantasy-Land monads`_, and `monadic futures`_.
 
+The ``verify`` function is used for synchronous assertions, and should work with
+any testing library that expects exceptions to be thrown to invalidate the
+test::
+
+    describe('Equality', function() {
+      it('Should fail', function() {
+        alright.verify(3, _.equals(2))
+        // => AssertionError('Expected 3 to structurally equal 2')
+      })
+    })
+
+
+The ``verifyPromise`` function is used for asynchronous assertions, when the
+testing library expects Promises/A+ values to be returned from the testing
+function. `Mocha`_ and other libraries/frameworks support this::
+
+    describe('Equality', function() {
+      it('Should fail', function() {
+        return alright.verifyPromise(Promise.of(3), _.equals(2))
+        // => Promise(AssertionError('Expected 3 to structurally equal 2'))
+      })
+    })
+
+Likewise, the ``verifyMonad`` and ``verifyFuture`` functions are used for
+asynchronous assertions when the testing library expects Monads or Futures to
+be returned from the testing function. These will be supported in the next
+version of the `Hi-Five`_ testing library.
 
 
 
@@ -244,3 +274,8 @@ assertions using promises or any other concept.
 .. _Data.Validation: https://github.com/folktale/data.validation
 .. _`A Monad In Practicality: First-Class Failures`: http://robotlolita.github.io/2013/12/08/a-monad-in-practicality-first-class-failures.html
 .. _Core.Lambda: https://github.com/folktale/core.lambda
+.. _Promises/A+: http://promises-aplus.github.io/promises-spec/
+.. _Fantasy-Land monads: https://github.com/fantasyland/fantasy-land
+.. _monadic futures: https://github.com/folktale/data.future
+.. _Mocha: http://visionmedia.github.io/mocha/
+.. _Hi-Five: https://github.com/hifivejs/hifive
