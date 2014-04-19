@@ -48,11 +48,9 @@ add(a)(b) => not a + b
 add(a)(b) should equal(a + b)
 add(a)(b) should not equal(a + b)
 
-// asynchronous assertions with pure fantasy-land monads
-asyncAdd(a)(b) will => a + b
-asyncAdd(a)(b) will not => a + b
-asyncAdd(a)(b) will be equal(a + b)
-asyncAdd(a)(b) will not be equal(a + b)
+// asynchronous assertions with pure fantasy-land monads, or Promises/A+
+asyncAdd(a)(b) will equal(a + b)
+asyncAdd(a)(b) will not equal(a + b)
 ```
 
 Using vanilla JavaScript:
@@ -60,12 +58,12 @@ Using vanilla JavaScript:
 ```js
 var _ = require('alright')
 
-_.verify(_.equals(a + b, add(a)(b)))
-_.verify(_.not(_.equals(a + b, add(a)(b))))
+// Use verify for synchronous assertions
+_.verify(add(a)(b))(_.equals(a + b))
+_.verify(add(a)(b))(_.not(_.equals(a + b)))
 
-asyncAdd(a)(b).chain(function(x) {
-  return _.verify(_.equals(a + b, x))
-})
+// use verifyFuture for monadic Futures, and verifyPromise for Promises/A+
+_.verifyMonad(asyncAdd(a)(b))(_.equals(a + b))
 ```
 
 

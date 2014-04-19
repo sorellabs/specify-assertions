@@ -272,7 +272,41 @@ version of the `Hi-Five`_ testing library.
 Macros
 ======
 
+There's only so much you can abstract within JavaScript itself, until you hit
+walls that would require you to come up with some design pattern. Since Alright
+wants to make assertions straight-forward to write, design patterns would not
+be ideal. Luckily `Sweet.js`_ provides a JavaScript superset that supports
+syntactical abstractions through macros.
 
+Macros for synchronous assertions are pretty straight-forward, you just need to
+load the ``macros/index.sjs`` file::
+
+    describe('Equality', function() {
+      it('Should fail', function() {
+        3 should equal(2)
+        3 should be equal(2)            // => `be` is a noop particle
+        3 should haveType('number')
+
+
+        // For structural equality, you can use the short form:
+        3 => 2          // same as 3 should equal(2)
+      })
+    })
+
+Macros for asynchronous assertions are somewhat straight forward as well, with
+the difference that there's no short form, and you need to load the correct
+macro for your testing library. Alright provides ``macros/promises.sjs`` for
+Promises/A+-based testing libraries, ``macros/monads.sjs`` for Monad-based
+testing libraries, and ``macros/futures.sjs`` for Future-based testing
+libraries. Usage is similar to synchronous ``should``, but the word used is
+``will``::
+
+    describe('Equality', function() {
+      it('Should fail', function() {
+        Promise.of(3) will equal(2)
+        Promise.of(3) will be equal(2)
+      })
+    })
 
 
 

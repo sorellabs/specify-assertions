@@ -192,9 +192,9 @@ an expectation isn't met::
     var _ = alright
 
 
-    _.verify( _.equals(1)(1) )          // same as: 1 => 1
+    _.verify(1)(_.equals(1))          // same as: 1 => 1
 
-    _.verify( _.not(_.equals(1)(1)) )   // same as: 1 => not 1
+    _.verify(1)(_.not(_.equals(1)))   // same as: 1 => not 1
 
 
 
