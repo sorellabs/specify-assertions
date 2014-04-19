@@ -33,7 +33,7 @@ hifive.Test.setTimeout(5000);
 module.exports = spec('Divergence', function (it, spec$2) {
     spec$2('divergence()', function (it$2) {
         it$2('Should make a divergence with the given message.', forAll(t.Id).satisfy(function (a) {
-            return alright.verify(_.divergence(a).make({}).toString(), alright.equal(false));
+            return alright.verify(_.divergence(a).make({}).toString(), alright.equal(a));
         }).asTest());
         it$2('Should not be invertible', forAll(t.Str).satisfy(function (a) {
             return alright.verify(function () {

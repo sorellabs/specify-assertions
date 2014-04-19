@@ -92,14 +92,14 @@ module.exports = spec('Validations', function(it, spec) {
         )
       }).asTest())
 
-  it( 'beOfType(α, β) should succeed whenever β is of type α'
+  it( 'haveType(α, β) should succeed whenever β is of type α'
     , forAll(Any).satisfy(function(a) {
-        return _.beOfType(typeof a)(a).isSuccess => true
+        return _.haveType(typeof a)(a).isSuccess => true
       }).asTest())
 
-  it( 'beOfClass(α, β) should succeed whenever β has class α'
+  it( 'haveClass(α, β) should succeed whenever β has class α'
     , forAll(Any).satisfy(function(a) {
-        return _.beOfClass(classOf(a).slice(8, -1))(a).isSuccess => true
+        return _.haveClass(classOf(a).slice(8, -1))(a).isSuccess => true
       }).asTest())
 
   it( 'contain(α, β) should succeed whenever β contains α'

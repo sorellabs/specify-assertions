@@ -82,11 +82,11 @@ module.exports = spec('Validations', function (it, spec$2) {
     it('strictEqual(\u03B1, \u03B2) should succeed if \u03B1 and \u03B2 are strict equal', forAll(Any, Any).satisfy(function (a, b) {
         return alright.verify(_.strictEqual(a)(a).isSuccess, alright.equal(a === a)), alright.verify(_.strictEqual(b)(b).isSuccess, alright.equal(b === b)), alright.verify(_.strictEqual(a)(b).isSuccess, alright.equal(a === b));
     }).asTest());
-    it('beOfType(\u03B1, \u03B2) should succeed whenever \u03B2 is of type \u03B1', forAll(Any).satisfy(function (a) {
-        return alright.verify(_.beOfType(typeof a)(a).isSuccess, alright.equal(true));
+    it('haveType(\u03B1, \u03B2) should succeed whenever \u03B2 is of type \u03B1', forAll(Any).satisfy(function (a) {
+        return alright.verify(_.haveType(typeof a)(a).isSuccess, alright.equal(true));
     }).asTest());
-    it('beOfClass(\u03B1, \u03B2) should succeed whenever \u03B2 has class \u03B1', forAll(Any).satisfy(function (a) {
-        return alright.verify(_.beOfClass(classOf(a).slice(8, -1))(a).isSuccess, alright.equal(true));
+    it('haveClass(\u03B1, \u03B2) should succeed whenever \u03B2 has class \u03B1', forAll(Any).satisfy(function (a) {
+        return alright.verify(_.haveClass(classOf(a).slice(8, -1))(a).isSuccess, alright.equal(true));
     }).asTest());
     it('contain(\u03B1, \u03B2) should succeed whenever \u03B2 contains \u03B1', forAll(List(Any)).given(notEmpty).satisfy(function (as) {
         return alright.verify(_.contain(pick(as))(as).isSuccess, alright.equal(true)), alright.verify(_.contain({})(as).isFailure, alright.equal(true));
