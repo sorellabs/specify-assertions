@@ -1,4 +1,10 @@
 macro should {
+  case infix { $actual:expr | _ not be $test:expr } => {
+    return #{ $actual should not $test }
+  }
+  case infix { $actual:expr | _ be $test:expr } => {
+    return #{ $actual should $test }
+  }
   case infix { $actual:expr | _ not $test:expr } => {
     letstx $alright = [makeIdent('alright', #{$test}[0])];
     return #{
@@ -10,12 +16,6 @@ macro should {
     return #{
       $alright.verify($actual)($test)
     }
-  }
-  case infix { $actual:expr | _ not be $test:expr } => {
-    return #{ $actual should not $test }
-  }
-  case infix { $actual:expr | _ be $test:expr } => {
-    return #{ $actual should $test }
   }
 }
 
