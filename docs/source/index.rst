@@ -23,9 +23,6 @@ Guides
        A thorough tour of Alright's concepts, so you can understand how to best
        use it for testing your projects, and extend it with new assertions.
 
-   * :doc:`Contributing <dev/index>`
-       All you need to know to contribute to the Alright library!
-
    * `API Reference`_
        A quick reference of Alright's API, including usage examples.
 
@@ -34,7 +31,6 @@ Guides
    
    quickstart/index
    user/index
-   dev/index
 
 
 .. index:: platform support
