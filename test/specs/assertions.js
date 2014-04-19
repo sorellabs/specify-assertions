@@ -65,31 +65,31 @@ module.exports = spec('Validations', function (it, spec$2) {
     spec$2('assert()', function (it$2) {
         var divergence = _.divergence.Divergence;
         it$2('Should create a successful validation if the assertion is true.', function () {
-            alright.verify(alright.equal(true)(_.assert(true, divergence).isSuccess));
-            alright.verify(alright.equal(divergence)(_.assert(true, divergence).get()));
+            alright.verify(_.assert(true, divergence).isSuccess, alright.equal(true));
+            alright.verify(_.assert(true, divergence).get(), alright.equal(divergence));
         });
         it$2('Should create a failed validation if the assertion fails.', function () {
-            alright.verify(alright.equal(true)(_.assert(false, divergence).isFailure));
-            alright.verify(alright.equal(divergence)(_.assert(false, divergence).swap().get()));
+            alright.verify(_.assert(false, divergence).isFailure, alright.equal(true));
+            alright.verify(_.assert(false, divergence).swap().get(), alright.equal(divergence));
         });
     });
     it('equal(\u03B1, \u03B2) should succeed if \u03B1 and \u03B2 are structurally equal', forAll(Any, Any).satisfy(function (a, b) {
-        return alright.verify(alright.equal(true)(_.equal(a)(a).isSuccess)), alright.verify(alright.equal(true)(_.equal(b)(b).isSuccess)), alright.verify(alright.equal(deepEq(a, b))(_.equal(a)(b).isSuccess));
+        return alright.verify(_.equal(a)(a).isSuccess, alright.equal(true)), alright.verify(_.equal(b)(b).isSuccess, alright.equal(true)), alright.verify(_.equal(a)(b).isSuccess, alright.equal(deepEq(a, b)));
     }).asTest());
     it('ok(\u03B1) should succeed whenever \u03B1 is truthy', forAll(Any).satisfy(function (a) {
-        return alright.verify(alright.equal(!!a)(_.ok(a).isSuccess));
+        return alright.verify(_.ok(a).isSuccess, alright.equal(!!a));
     }).asTest());
     it('strictEqual(\u03B1, \u03B2) should succeed if \u03B1 and \u03B2 are strict equal', forAll(Any, Any).satisfy(function (a, b) {
-        return alright.verify(alright.equal(a === a)(_.strictEqual(a)(a).isSuccess)), alright.verify(alright.equal(b === b)(_.strictEqual(b)(b).isSuccess)), alright.verify(alright.equal(a === b)(_.strictEqual(a)(b).isSuccess));
+        return alright.verify(_.strictEqual(a)(a).isSuccess, alright.equal(a === a)), alright.verify(_.strictEqual(b)(b).isSuccess, alright.equal(b === b)), alright.verify(_.strictEqual(a)(b).isSuccess, alright.equal(a === b));
     }).asTest());
     it('beOfType(\u03B1, \u03B2) should succeed whenever \u03B2 is of type \u03B1', forAll(Any).satisfy(function (a) {
-        return alright.verify(alright.equal(true)(_.beOfType(typeof a)(a).isSuccess));
+        return alright.verify(_.beOfType(typeof a)(a).isSuccess, alright.equal(true));
     }).asTest());
     it('beOfClass(\u03B1, \u03B2) should succeed whenever \u03B2 has class \u03B1', forAll(Any).satisfy(function (a) {
-        return alright.verify(alright.equal(true)(_.beOfClass(classOf(a).slice(8, -1))(a).isSuccess));
+        return alright.verify(_.beOfClass(classOf(a).slice(8, -1))(a).isSuccess, alright.equal(true));
     }).asTest());
     it('contain(\u03B1, \u03B2) should succeed whenever \u03B2 contains \u03B1', forAll(List(Any)).given(notEmpty).satisfy(function (as) {
-        return alright.verify(alright.equal(true)(_.contain(pick(as))(as).isSuccess)), alright.verify(alright.equal(true)(_.contain({})(as).isFailure));
+        return alright.verify(_.contain(pick(as))(as).isSuccess, alright.equal(true)), alright.verify(_.contain({})(as).isFailure, alright.equal(true));
     }).asTest());
     it('match(\u03B1)(\u03B2) should succeed whenever \u03B1 successfully matches \u03B2', forAll(t.Str).satisfy(function (a) {
     }    // TODO
@@ -97,17 +97,23 @@ module.exports = spec('Validations', function (it, spec$2) {
     it('have(\u03B1)(\u03B2) should succeed whenever \u03B2 has a property \u03B1', forAll(Map(t.Int), List(t.Id)).satisfy(function (a, bs) {
         var keys = shuffle(Object.keys(a).concat(bs));
         var key = pick(keys);
-        return alright.verify(alright.equal(key in a)(_.have(key)(a).isSuccess));
+        return alright.verify(_.have(key)(a).isSuccess, alright.equal(key in a));
     }).asTest());
     it('raise(\u03B1)(\u03B2) should succeed whenever \u03B2() throws \u03B1', forAll(Errs).satisfy(function (e) {
-        return alright.verify(_.raise(e)(function () {
+        return alright.verify(function () {
             throw e('foo');
-        })), alright.verify(_.raise('foo')(function () {
+        }, _.raise(e)), alright.verify(function () {
             throw e('foo');
-        })), alright.verify(_.raise(/oo/)(function () {
+        }, _.raise('foo')), alright.verify(function () {
             throw e('foo');
-        })), alright.verify(alright.not(_.raise(AssertionError)(function () {
+        }, _.raise(/oo/)), alright.verify(function () {
             throw e('foo');
-        })));
+        }, alright.not(_.raise(AssertionError)));
     }).asTest());
+    spec$2('not()', function (it$2) {
+        it$2('Should swap the validation values.', function () {
+            alright.verify(_.not(_.ok, true).toString(), alright.equal('Validation.Failure(true to not be ok)'));
+            alright.verify(_.not(_.not(_.ok), true).toString(), alright.equal('Validation.Success(true to be ok)'));
+        });
+    });
 });

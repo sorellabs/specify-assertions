@@ -38,21 +38,12 @@ module.exports = spec('Core', function(it, spec) {
   spec('verify()', function(it) {
     it( 'Should succeed with true if the validation is a success.'
       , function() {
-          _.verify(_.ok(true)) => true
+          _.verify(true, _.ok) => true
       })
 
     it( 'Should fail with an exception if the validation is a succes.'
       , function() {
-          function(){ _.verify(_.ok(false)) } should _.raise(AssertionError)
-      })
-  })
-
-  spec('not()', function(it) {
-    it( 'Should swap the validation values.'
-      , function() {
-          var d = _.ok(true)
-          _.not(d).toString()        => 'Validation.Failure(true to not be ok)'
-          _.not(_.not(d)).toString() => d.toString()
+          function(){ _.verify(false, _.ok) } should _.raise(AssertionError)
       })
   })
 

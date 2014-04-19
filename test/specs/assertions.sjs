@@ -134,4 +134,12 @@ module.exports = spec('Validations', function(it, spec) {
         )
     }).asTest())
 
+  spec('not()', function(it) {
+    it( 'Should swap the validation values.'
+      , function() {
+          _.not(_.ok, true).toString()        => 'Validation.Failure(true to not be ok)'
+          _.not(_.not(_.ok), true).toString() => 'Validation.Success(true to be ok)'
+      })
+  })
+
 })

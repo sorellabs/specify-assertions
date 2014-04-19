@@ -32,19 +32,12 @@ hifive.Test.setTimeout(5000);
 module.exports = spec('Core', function (it, spec$2) {
     spec$2('verify()', function (it$2) {
         it$2('Should succeed with true if the validation is a success.', function () {
-            alright.verify(alright.equal(true)(_.verify(_.ok(true))));
+            alright.verify(_.verify(true, _.ok), alright.equal(true));
         });
         it$2('Should fail with an exception if the validation is a succes.', function () {
-            alright.verify(_.raise(AssertionError)(function () {
-                _.verify(_.ok(false));
-            }));
-        });
-    });
-    spec$2('not()', function (it$2) {
-        it$2('Should swap the validation values.', function () {
-            var d = _.ok(true);
-            alright.verify(alright.equal('Validation.Failure(true to not be ok)')(_.not(d).toString()));
-            alright.verify(alright.equal(d.toString())(_.not(_.not(d)).toString()));
+            alright.verify(function () {
+                _.verify(false, _.ok);
+            }, _.raise(AssertionError));
         });
     });
 });
