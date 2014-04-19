@@ -110,6 +110,11 @@ module.exports = spec('Validations', function (it, spec$2) {
             throw e('foo');
         })(alright.not(_.raise(AssertionError)));
     }).asTest());
+    it('inheritsFrom(\u03B1)(\u03B2) should succeed if \u03B1 is in the proto chain of \u03B2', function () {
+        var a = {}, b = Object.create(a);
+        alright.verify(b)(_.inheritFrom(a));
+        alright.verify(a)(alright.not(_.inheritFrom(b)));
+    });
     spec$2('not()', function (it$2) {
         it$2('Should swap the validation values.', function () {
             alright.verify(_.not(_.ok, true).toString())(alright.equal('Validation.Failure(true to not be ok)'));

@@ -134,6 +134,13 @@ module.exports = spec('Validations', function(it, spec) {
         )
     }).asTest())
 
+  it( 'inheritsFrom(α)(β) should succeed if α is in the proto chain of β'
+    , function() {
+        var a = {}, b = Object.create(a)
+        b should _.inheritFrom(a)
+        a should not _.inheritFrom(b)
+      })
+
   spec('not()', function(it) {
     it( 'Should swap the validation values.'
       , function() {
