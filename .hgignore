@@ -7,3 +7,4 @@ npm_debug.log
 .\#*
 docs/api
 .*
+dist
