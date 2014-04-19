@@ -152,7 +152,7 @@ Released under the [MIT licence](https://github.com/robotlolita/alright/blob/mas
 [Make]: http://www.gnu.org/software/make/
 [Node.js]: http://nodejs.org/
 [es5-shim]: https://github.com/kriskowal/es5-shim
-[docs]: http://robotlolita.github.io/alright
+[docs]: http://alright.readthedocs.org/
 <!-- [release: https://github.com/robotlolita/alright/releases/download/v$VERSION/alright-$VERSION.tar.gz] -->
 [release]: https://github.com/robotlolita/alright/releases/download/v1.0.0-alpha1/alright-1.0.0-alpha1.tar.gz
 <!-- [/release] -->
