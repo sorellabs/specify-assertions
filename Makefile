@@ -12,9 +12,10 @@ TEST_TGT = ${TEST_SRC:.sjs=.js}
 BUNDLE   = alright
 
 $(TEST_DIR)/%.js: $(TEST_DIR)/%.sjs
-	$(sjs) --readable-names  \
-	       --module ./macros \
-	       --output $@       \
+	$(sjs) --readable-names           \
+	       --module ./macros          \
+	       --module ./macros/promises \
+	       --output $@                \
 	       $<
 
 dist:

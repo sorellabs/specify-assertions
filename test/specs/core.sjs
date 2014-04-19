@@ -24,6 +24,7 @@ var alright        = require('../alright')
 var claire         = require('claire')
 var AssertionError = require('assertion-error')
 var _              = require('../../lib')
+var pinky          = require('pinky')
 
 // Aliases
 var spec   = hifive()
@@ -44,6 +45,18 @@ module.exports = spec('Core', function(it, spec) {
     it( 'Should fail with an exception if the validation is a succes.'
       , function() {
           function(){ _.verify(false, _.ok) } should _.raise(AssertionError)
+      })
+  })
+
+  spec('verifyPromise()', function(it) {
+    it( 'Should succeed with true if the validation is a success.'
+      , function() {
+          return _.verifyPromise(pinky(true), _.ok) will be _.ok
+      })
+
+    it( 'Should fail with an exception if the validation is a succes.'
+      , function() {
+          return pinky(function(){ _.verify(false, _.ok) }) will _.raise(AssertionError)
       })
   })
 

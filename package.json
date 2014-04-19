@@ -38,7 +38,8 @@
     "laws": "~0.2.1",
     "claire": "^0.4.1",
     "sweet.js": "^0.5.0",
-    "es5-shim": "^2.3.0"
+    "es5-shim": "^2.3.0",
+    "pinky": "^0.1.3"
   },
   "testling": {
     "files": "test/tap.js",

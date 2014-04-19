@@ -23,6 +23,7 @@ var alright = require('../alright');
 var claire = require('claire');
 var AssertionError = require('assertion-error');
 var _ = require('../../lib');
+var pinky = require('pinky');
 // Aliases
 var spec = hifive();
 var t = claire.data;
@@ -32,12 +33,22 @@ hifive.Test.setTimeout(5000);
 module.exports = spec('Core', function (it, spec$2) {
     spec$2('verify()', function (it$2) {
         it$2('Should succeed with true if the validation is a success.', function () {
-            alright.verify(_.verify(true, _.ok).toString(), alright.equal('true to be ok'));
+            alright.verify(_.verify(true, _.ok).toString())(alright.equal('true to be ok'));
         });
         it$2('Should fail with an exception if the validation is a succes.', function () {
             alright.verify(function () {
                 _.verify(false, _.ok);
-            }, _.raise(AssertionError));
+            })(_.raise(AssertionError));
+        });
+    });
+    spec$2('verifyPromise()', function (it$2) {
+        it$2('Should succeed with true if the validation is a success.', function () {
+            return alright.verifyPromise(_.verifyPromise(pinky(true), _.ok))(alright.not(_.ok));
+        });
+        it$2('Should fail with an exception if the validation is a succes.', function () {
+            return alright.verifyPromise(pinky(function () {
+                _.verify(false, _.ok);
+            }))(_.raise(AssertionError));
         });
     });
 });

@@ -33,12 +33,12 @@ hifive.Test.setTimeout(5000);
 module.exports = spec('Divergence', function (it, spec$2) {
     spec$2('divergence()', function (it$2) {
         it$2('Should make a divergence with the given message.', forAll(t.Id).satisfy(function (a) {
-            return alright.verify(_.divergence(a).make({}).toString(), alright.equal(a));
+            return alright.verify(_.divergence(a).make({}).toString())(alright.equal(a));
         }).asTest());
         it$2('Should not be invertible', forAll(t.Str).satisfy(function (a) {
             return alright.verify(function () {
                 _.divergence(a).inverse();
-            }, $.raise(Error));
+            })($.raise(Error));
         }).asTest());
         it$2('Should format the string according to the template and data.', function () {
             var d = _.divergence('{:a} == {:b}').make({
@@ -48,7 +48,7 @@ module.exports = spec('Divergence', function (it, spec$2) {
                         1
                     ]
                 });
-            alright.verify(d.toString(), alright.equal(show('foo') + ' == ' + show([
+            alright.verify(d.toString())(alright.equal(show('foo') + ' == ' + show([
                 'qux',
                 1
             ])));
@@ -57,7 +57,7 @@ module.exports = spec('Divergence', function (it, spec$2) {
     spec$2('invertibleDivergence()', function (ti) {
         it('Should make a divergence and its inverse.', forAll(t.Id, t.Id).satisfy(function (a, b) {
             var d = _.invertibleDivergence(a, b).make({});
-            return alright.verify(d.toString(), alright.equal(a)), alright.verify(d.inverse().toString(), alright.equal(b)), alright.verify(d.inverse().inverse(), alright.equal(d));
+            return alright.verify(d.toString())(alright.equal(a)), alright.verify(d.inverse().toString())(alright.equal(b)), alright.verify(d.inverse().inverse())(alright.equal(d));
         }).asTest());
     });
 });
