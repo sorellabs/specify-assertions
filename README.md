@@ -4,7 +4,7 @@ alright
 [![Build Status](https://secure.travis-ci.org/robotlolita/alright.png?branch=master)](https://travis-ci.org/robotlolita/alright)
 [![NPM version](https://badge.fury.io/js/alright.png)](http://badge.fury.io/js/alright)
 [![Dependencies Status](https://david-dm.org/robotlolita/alright.png)](https://david-dm.org/robotlolita/alright)
-[![experimental](http://hughsk.github.io/stability-badges/dist/experimental.svg)](http://github.com/hughsk/stability-badges)
+[![stable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
 
 [![browser support](http://ci.testling.com/robotlolita/alright.png)](http://ci.testling.com/robotlolita/alright)
 
