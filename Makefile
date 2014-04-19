@@ -32,8 +32,10 @@ bundle: dist/$(BUNDLE).umd.js
 minify: dist/$(BUNDLE).umd.min.js
 
 documentation:
+	cd docs && make html
 	$(jsdoc) --configure jsdoc.conf.json
 	ABSPATH=$(shell cd "$(dirname "$0")"; pwd) $(MAKE) clean-docs
+	cp -r docs/api docs/build/html
 
 clean-docs:
 	perl -pi -e "s?$$ABSPATH/??g" ./docs/api/*.html

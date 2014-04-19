@@ -78,5 +78,5 @@ MIT/X11.
 
 .. _Github tracker: https://github.com/robotlolita/alright/issues
 .. _es5-shim: https://github.com/kriskowal/es5-shim
-.. _API Reference: _static/api/index.html
+.. _API Reference: api/index.html
 .. _Mocha: http://visionmedia.github.io/mocha/
