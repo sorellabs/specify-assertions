@@ -18,26 +18,15 @@
 // LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-var hifive = require('hifive');
-var alright = require('../alright');
-var claire = require('claire');
-var AssertionError = require('assertion-error');
-var _ = require('../../lib');
-// Aliases
-var spec = hifive();
-var t = claire.data;
-var forAll = claire.forAll;
-hifive.Test.setTimeout(5000);
-// Specification
-module.exports = spec('Core', function (it, spec$2) {
-    spec$2('verify()', function (it$2) {
-        it$2('Should succeed with true if the validation is a success.', function () {
-            alright.verify(_.verify(true, _.ok).toString(), alright.equal('true to be ok'));
-        });
-        it$2('Should fail with an exception if the validation is a succes.', function () {
-            alright.verify(function () {
-                _.verify(false, _.ok);
-            }, _.raise(AssertionError));
-        });
-    });
-});
+
+var alright = require('../lib')
+var curry   = require('core.lambda').curry
+
+var alrightForTest = Object.create(alright)
+
+alrightForTest.verify = curry(2, verify)
+function verify(a, checker) {
+  return !!alright.verify(a, checker)
+}
+
+module.exports = alrightForTest

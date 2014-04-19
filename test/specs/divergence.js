@@ -19,12 +19,12 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 var hifive = require('hifive');
-var alright = require('../../lib');
+var alright = require('../alright');
+var _ = require('../../lib').divergence;
 var claire = require('claire');
 var show = require('util').inspect;
 // Aliases
 var spec = hifive();
-var _ = alright.divergence;
 var $ = alright;
 var t = claire.data;
 var forAll = claire.forAll;
@@ -33,12 +33,12 @@ hifive.Test.setTimeout(5000);
 module.exports = spec('Divergence', function (it, spec$2) {
     spec$2('divergence()', function (it$2) {
         it$2('Should make a divergence with the given message.', forAll(t.Id).satisfy(function (a) {
-            return alright.verify(alright.equal(a)(_.divergence(a).make({}).toString()));
+            return alright.verify(_.divergence(a).make({}).toString(), alright.equal(false));
         }).asTest());
         it$2('Should not be invertible', forAll(t.Str).satisfy(function (a) {
-            return alright.verify($.raise(Error)(function () {
+            return alright.verify(function () {
                 _.divergence(a).inverse();
-            }));
+            }, $.raise(Error));
         }).asTest());
         it$2('Should format the string according to the template and data.', function () {
             var d = _.divergence('{:a} == {:b}').make({
@@ -48,16 +48,16 @@ module.exports = spec('Divergence', function (it, spec$2) {
                         1
                     ]
                 });
-            alright.verify(alright.equal(show('foo') + ' == ' + show([
+            alright.verify(d.toString(), alright.equal(show('foo') + ' == ' + show([
                 'qux',
                 1
-            ]))(d.toString()));
+            ])));
         });
     });
     spec$2('invertibleDivergence()', function (ti) {
         it('Should make a divergence and its inverse.', forAll(t.Id, t.Id).satisfy(function (a, b) {
             var d = _.invertibleDivergence(a, b).make({});
-            return alright.verify(alright.equal(a)(d.toString())), alright.verify(alright.equal(b)(d.inverse().toString())), alright.verify(alright.equal(d)(d.inverse().inverse()));
+            return alright.verify(d.toString(), alright.equal(a)), alright.verify(d.inverse().toString(), alright.equal(b)), alright.verify(d.inverse().inverse(), alright.equal(d));
         }).asTest());
     });
 });

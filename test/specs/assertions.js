@@ -19,15 +19,15 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 var hifive = require('hifive');
-var alright = require('../../lib');
+var alright = require('../alright');
 var claire = require('claire');
 var k = require('core.lambda').constant;
 var deepEq = require('deep-equal');
 var extend = require('boo').extend;
 var AssertionError = require('assertion-error');
+var _ = require('../../lib');
 // Aliases
 var spec = hifive();
-var _ = alright;
 var t = claire.data;
 var forAll = claire.forAll;
 var classOf = Function.call.bind(Object.prototype.toString);

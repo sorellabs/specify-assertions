@@ -20,13 +20,13 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 var hifive         = require('hifive')
-var alright        = require('../../lib')
+var alright        = require('../alright')
 var claire         = require('claire')
 var AssertionError = require('assertion-error')
+var _              = require('../../lib')
 
 // Aliases
 var spec   = hifive()
-var _      = alright
 var t      = claire.data
 var forAll = claire.forAll
 
@@ -38,7 +38,7 @@ module.exports = spec('Core', function(it, spec) {
   spec('verify()', function(it) {
     it( 'Should succeed with true if the validation is a success.'
       , function() {
-          _.verify(true, _.ok) => true
+          _.verify(true, _.ok).toString() => 'true to be ok'
       })
 
     it( 'Should fail with an exception if the validation is a succes.'

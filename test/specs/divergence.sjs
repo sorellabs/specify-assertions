@@ -20,13 +20,13 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 var hifive  = require('hifive')
-var alright = require('../../lib')
+var alright = require('../alright')
+var _       = require('../../lib').divergence
 var claire  = require('claire')
 var show    = require('util').inspect
 
 // Aliases
 var spec   = hifive()
-var _      = alright.divergence
 var $      = alright
 var t      = claire.data
 var forAll = claire.forAll
