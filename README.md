@@ -1,12 +1,12 @@
 alright
 =======
 
-[![Build Status](https://secure.travis-ci.org/robotlolita/alright.png?branch=master)](https://travis-ci.org/robotlolita/alright)
+[![Build Status](https://secure.travis-ci.org/hifivejs/alright.png?branch=master)](https://travis-ci.org/hifivejs/alright)
 [![NPM version](https://badge.fury.io/js/alright.png)](http://badge.fury.io/js/alright)
-[![Dependencies Status](https://david-dm.org/robotlolita/alright.png)](https://david-dm.org/robotlolita/alright)
+[![Dependencies Status](https://david-dm.org/hifivejs/alright.png)](https://david-dm.org/hifivejs/alright)
 [![stable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
 
-[![browser support](http://ci.testling.com/robotlolita/alright.png)](http://ci.testling.com/robotlolita/alright)
+[![browser support](http://ci.testling.com/hifivejs/alright.png)](http://ci.testling.com/hifivejs/alright)
 
 
 Beautiful assertion library.
@@ -112,7 +112,7 @@ file. The properties are exposed in the global `Alright` object:
 If you want to compile this library from the source, you'll need [Git][],
 [Make][], [Node.js][], and run the following commands:
 
-    $ git clone git://github.com/robotlolita/alright.git
+    $ git clone git://github.com/hifivejs/alright.git
     $ cd alright
     $ npm install
     $ make bundle
@@ -125,7 +125,7 @@ any JavaScript environment.
 
 You can [read the documentation online][docs] or build it yourself:
 
-    $ git clone git://github.com/robotlolita/alright.git
+    $ git clone git://github.com/hifivejs/alright.git
     $ cd alright
     $ npm install
     $ make documentation
@@ -143,7 +143,7 @@ platforms by the use of shims. Just include [es5-shim][] :)
 
 Copyright (c) 2014 Quildreen Motta.
 
-Released under the [MIT licence](https://github.com/robotlolita/alright/blob/master/LICENCE).
+Released under the [MIT licence](https://github.com/hifivejs/alright/blob/master/LICENCE).
 
 <!-- links -->
 [Fantasy Land]: https://github.com/fantasyland/fantasy-land
@@ -153,6 +153,6 @@ Released under the [MIT licence](https://github.com/robotlolita/alright/blob/mas
 [Node.js]: http://nodejs.org/
 [es5-shim]: https://github.com/kriskowal/es5-shim
 [docs]: http://alright.readthedocs.org/
-<!-- [release: https://github.com/robotlolita/alright/releases/download/v$VERSION/alright-$VERSION.tar.gz] -->
-[release]: https://github.com/robotlolita/alright/releases/download/v1.0.0-alpha2/alright-1.0.0-alpha2.tar.gz
+<!-- [release: https://github.com/hifivejs/alright/releases/download/v$VERSION/alright-$VERSION.tar.gz] -->
+[release]: https://github.com/hifivejs/alright/releases/download/v1.0.0-alpha2/alright-1.0.0-alpha2.tar.gz
 <!-- [/release] -->
