@@ -154,5 +154,5 @@ Released under the [MIT licence](https://github.com/hifivejs/alright/blob/master
 [es5-shim]: https://github.com/kriskowal/es5-shim
 [docs]: http://alright.readthedocs.org/
 <!-- [release: https://github.com/hifivejs/alright/releases/download/v$VERSION/alright-$VERSION.tar.gz] -->
-[release]: https://github.com/hifivejs/alright/releases/download/v1.0.0-alpha2/alright-1.0.0-alpha2.tar.gz
+[release]: https://github.com/hifivejs/alright/releases/download/v1.1.0/alright-1.1.0.tar.gz
 <!-- [/release] -->
