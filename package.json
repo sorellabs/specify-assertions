@@ -1,6 +1,6 @@
 {
   "name": "alright",
-  "version": "1.0.0-alpha2",
+  "version": "1.0.0",
   "description": "Beautiful assertion library.",
   "main": "lib/index.js",
   "scripts": {
