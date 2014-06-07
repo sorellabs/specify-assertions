@@ -77,6 +77,16 @@ module.exports = spec('Validations', function(it, spec) {
         )
       }).asTest())
 
+  it('equal(α, β) should support custom equality', function() {
+    var x = { equals: function(b){ return b.v === 1 }}, y = { v: 1 }, z = { v: 2 };
+    var a = { isEqual: function(b){ return b.v === 2 }}, b = { v: 1 }, c = { v: 2 };
+
+    y => x;
+    z => not x;
+    b => not a;
+    c => a;
+  })
+
   it( 'ok(α) should succeed whenever α is truthy'
     , forAll(Any).satisfy(function(a) {
         return _.ok(a).isSuccess => !!a

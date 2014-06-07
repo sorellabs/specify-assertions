@@ -26,7 +26,6 @@ macro should {
 
 macro (=>) {
   rule infix { $actual:expr | not $expected:expr } => {
-    $actual should not 
     (function(alright) {
       return alright.verify($actual)(alright.not(alright.equal($expected)))
     })($alright__load)

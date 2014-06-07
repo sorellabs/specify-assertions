@@ -89,6 +89,30 @@ module.exports = spec('Validations', function (it, spec$2) {
             return alright.verify(_.equal(a)(b).isSuccess)(alright.equal(deepEq(a, b)));
         }(typeof module !== 'undefined' && typeof require !== 'undefined' ? require('alright') : window.alright);
     }).asTest());
+    it('equal(\u03B1, \u03B2) should support custom equality', function () {
+        var x = {
+                equals: function (b$2) {
+                    return b$2.v === 1;
+                }
+            }, y = { v: 1 }, z = { v: 2 };
+        var a = {
+                isEqual: function (b$2) {
+                    return b$2.v === 2;
+                }
+            }, b = { v: 1 }, c = { v: 2 };
+        (function (alright) {
+            return alright.verify(y)(alright.equal(x));
+        }(typeof module !== 'undefined' && typeof require !== 'undefined' ? require('alright') : window.alright));
+        (function (alright) {
+            return alright.verify(z)(alright.not(alright.equal(x)));
+        }(typeof module !== 'undefined' && typeof require !== 'undefined' ? require('alright') : window.alright));
+        (function (alright) {
+            return alright.verify(b)(alright.not(alright.equal(a)));
+        }(typeof module !== 'undefined' && typeof require !== 'undefined' ? require('alright') : window.alright));
+        (function (alright) {
+            return alright.verify(c)(alright.equal(a));
+        }(typeof module !== 'undefined' && typeof require !== 'undefined' ? require('alright') : window.alright));
+    });
     it('ok(\u03B1) should succeed whenever \u03B1 is truthy', forAll(Any).satisfy(function (a) {
         return function (alright) {
             return alright.verify(_.ok(a).isSuccess)(alright.equal(!!a));
