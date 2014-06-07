@@ -1,36 +1,40 @@
+macro $alright__load {
+  rule {} => {
+    typeof module !== 'undefined' && typeof require !== 'undefined'?  require('alright')
+    :                                                                 window.alright
+  }
+}
+
 macro should {
-  case infix { $actual:expr | _ not be $test:expr } => {
-    return #{ $actual should not $test }
+  rule infix { $actual:expr | not be $test:expr } => {
+    $actual should not $test
   }
-  case infix { $actual:expr | _ be $test:expr } => {
-    return #{ $actual should $test }
+  rule infix { $actual:expr | be $test:expr } => {
+    $actual should $test
   }
-  case infix { $actual:expr | _ not $test:expr } => {
-    letstx $alright = [makeIdent('alright', #{$test}[0])];
-    return #{
-      $alright.verify($actual)($alright.not($test))
-    }
+  rule infix { $actual:expr | not $test:expr } => {
+    (function(alright) {
+      return alright.verify($actual)(alright.not($test))
+    })($alright__load)
   }
-  case infix { $actual:expr | _ $test:expr } => {
-    letstx $alright = [makeIdent('alright', #{$test}[0])];
-    return #{
-      $alright.verify($actual)($test)
-    }
+  rule infix { $actual:expr | $test:expr } => {
+    (function(alright) {
+      return alright.verify($actual)($test)
+    })($alright__load)
   }
 }
 
 macro (=>) {
-  case infix { $actual:expr | _ not $expected:expr } => {
-    letstx $alright = [makeIdent('alright', #{$expected}[0])];
-    return #{
-      $actual should not $alright.equal($expected)
-    }
+  rule infix { $actual:expr | not $expected:expr } => {
+    $actual should not 
+    (function(alright) {
+      return alright.verify($actual)(alright.not(alright.equal($expected)))
+    })($alright__load)
   }
-  case infix { $actual:expr | _ $expected:expr } => {
-    letstx $alright = [makeIdent('alright', #{$expected}[0])];
-    return #{
-      $actual should $alright.equal($expected)
-    }
+  rule infix { $actual:expr | $expected:expr } => {
+    (function(alright) {
+      return alright.verify($actual)(alright.equal($expected))
+    })($alright__load)
   }
 }
 

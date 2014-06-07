@@ -20,7 +20,6 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 var hifive         = require('hifive')
-var alright        = require('../alright')
 var claire         = require('claire')
 var AssertionError = require('assertion-error')
 var _              = require('../../lib')

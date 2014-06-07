@@ -20,7 +20,6 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 var hifive         = require('hifive')
-var alright        = require('../alright')
 var claire         = require('claire')
 var k              = require('core.lambda').constant
 var deepEq         = require('deep-equal')
@@ -58,13 +57,13 @@ module.exports = spec('Validations', function(it, spec) {
 
     it( 'Should create a successful validation if the assertion is true.'
       , function() {
-          _.assert(true, divergence).isSuccess => true
+          _.assert(true, divergence).isSuccess => true;
           _.assert(true, divergence).get()     => divergence
         })
 
     it( 'Should create a failed validation if the assertion fails.'
       , function() {
-          _.assert(false, divergence).isFailure    => true
+          _.assert(false, divergence).isFailure    => true;
           _.assert(false, divergence).swap().get() => divergence
         })
   })
@@ -118,8 +117,8 @@ module.exports = spec('Validations', function(it, spec) {
 
   it( 'have(α)(β) should succeed whenever β has a property α'
     , forAll(Map(t.Int), List(t.Id)).satisfy(function(a, bs) {
-        var keys = shuffle(Object.keys(a).concat(bs))
-        var key  = pick(keys)
+        var keys = shuffle(Object.keys(a).concat(bs));
+        var key  = pick(keys);
 
         return _.have(key)(a).isSuccess => key in a
       }).asTest())
@@ -136,15 +135,15 @@ module.exports = spec('Validations', function(it, spec) {
 
   it( 'inheritsFrom(α)(β) should succeed if α is in the proto chain of β'
     , function() {
-        var a = {}, b = Object.create(a)
-        b should _.inheritFrom(a)
+        var a = {}, b = Object.create(a);
+        b should _.inheritFrom(a);
         a should not _.inheritFrom(b)
       })
 
   spec('not()', function(it) {
     it( 'Should swap the validation values.'
       , function() {
-          _.not(_.ok, true).toString()        => 'Validation.Failure(true to not be ok)'
+          _.not(_.ok, true).toString()        => 'Validation.Failure(true to not be ok)';
           _.not(_.not(_.ok), true).toString() => 'Validation.Success(true to be ok)'
       })
   })

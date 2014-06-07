@@ -19,13 +19,12 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 var hifive = require('hifive');
-var alright = require('../alright');
+var $ = require('../../lib');
 var _ = require('../../lib').divergence;
 var claire = require('claire');
 var show = require('util').inspect;
 // Aliases
 var spec = hifive();
-var $ = alright;
 var t = claire.data;
 var forAll = claire.forAll;
 hifive.Test.setTimeout(5000);
@@ -33,12 +32,16 @@ hifive.Test.setTimeout(5000);
 module.exports = spec('Divergence', function (it, spec$2) {
     spec$2('divergence()', function (it$2) {
         it$2('Should make a divergence with the given message.', forAll(t.Id).satisfy(function (a) {
-            return alright.verify(_.divergence(a).make({}).toString())(alright.equal(a));
+            return function (alright) {
+                return alright.verify(_.divergence(a).make({}).toString())(alright.equal(a));
+            }(typeof module !== 'undefined' && typeof require !== 'undefined' ? require('alright') : window.alright);
         }).asTest());
         it$2('Should not be invertible', forAll(t.Str).satisfy(function (a) {
-            return alright.verify(function () {
-                _.divergence(a).inverse();
-            })($.raise(Error));
+            return function (alright) {
+                return alright.verify(function () {
+                    _.divergence(a).inverse();
+                })($.raise(Error));
+            }(typeof module !== 'undefined' && typeof require !== 'undefined' ? require('alright') : window.alright);
         }).asTest());
         it$2('Should format the string according to the template and data.', function () {
             var d = _.divergence('{:a} == {:b}').make({
@@ -48,16 +51,24 @@ module.exports = spec('Divergence', function (it, spec$2) {
                         1
                     ]
                 });
-            alright.verify(d.toString())(alright.equal(show('foo') + ' == ' + show([
-                'qux',
-                1
-            ])));
+            (function (alright) {
+                return alright.verify(d.toString())(alright.equal(show('foo') + ' == ' + show([
+                    'qux',
+                    1
+                ])));
+            }(typeof module !== 'undefined' && typeof require !== 'undefined' ? require('alright') : window.alright));
         });
     });
     spec$2('invertibleDivergence()', function (ti) {
         it('Should make a divergence and its inverse.', forAll(t.Id, t.Id).satisfy(function (a, b) {
             var d = _.invertibleDivergence(a, b).make({});
-            return alright.verify(d.toString())(alright.equal(a)), alright.verify(d.inverse().toString())(alright.equal(b)), alright.verify(d.inverse().inverse())(alright.equal(d));
+            return function (alright) {
+                return alright.verify(d.toString())(alright.equal(a));
+            }(typeof module !== 'undefined' && typeof require !== 'undefined' ? require('alright') : window.alright), function (alright) {
+                return alright.verify(d.inverse().toString())(alright.equal(b));
+            }(typeof module !== 'undefined' && typeof require !== 'undefined' ? require('alright') : window.alright), function (alright) {
+                return alright.verify(d.inverse().inverse())(alright.equal(d));
+            }(typeof module !== 'undefined' && typeof require !== 'undefined' ? require('alright') : window.alright);
         }).asTest());
     });
 });

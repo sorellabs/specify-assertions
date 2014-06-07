@@ -1,21 +1,26 @@
+macro $alright__load {
+  rule {} => {
+    typeof module !== 'undefined' && typeof require !== 'undefined'?  require('alright')
+    :                                                                 window.alright
+  }
+}
+
 macro will {
-  case infix { $future:expr | _ not be $test:expr } => {
-    return #{ $future will not $test }
+  rule infix { $future:expr | not be $test:expr } => {
+    $future will not $test
   }
-  case infix { $future:expr | _ be $test:expr } => {
-    return #{ $future will $test }
+  rule infix { $future:expr | be $test:expr } => {
+    $future will $test
   }
-  case infix { $future:expr | _ not $test:expr } => {
-    letstx $alright = [makeIdent('alright', #{$test}[0])];
-    return #{
-      $alright.verifyFuture($future)($alright.not($test))
-    }
+  rule infix { $future:expr | not $test:expr } => {
+    (function(alright) {
+      return alright.verifyFuture($future)(alright.not($test))
+    })($alright__load)
   }
-  case infix { $future:expr | _ $test:expr } => {
-    letstx $alright = [makeIdent('alright', #{$test}[0])];
-    return #{
-      $alright.verifyFuture($future)($test)
-    }
+  rule infix { $future:expr | $test:expr } => {
+    (function(alright) {
+      return alright.verifyFuture($future)($test)
+    })($alright__load)
   }
 }
 

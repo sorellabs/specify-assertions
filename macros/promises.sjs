@@ -1,21 +1,26 @@
+macro $alright__load {
+  rule {} => {
+    typeof module !== 'undefined' && typeof require !== 'undefined'?  require('alright')
+    :                                                                 window.alright
+  }
+}
+
 macro will {
-  case infix { $promise:expr | _ not be $test:expr } => {
-    return #{ $promise will not $test }
+  rule infix { $promise:expr | not be $test:expr } => {
+    $promise will not $test
   }
-  case infix { $promise:expr | _ be $test:expr } => {
-    return #{ $promise will $test }
+  rule infix { $promise:expr | be $test:expr } => {
+    $promise will $test
   }
-  case infix { $promise:expr | _ not $test:expr } => {
-    letstx $alright = [makeIdent('alright', #{$test}[0])];
-    return #{
-      $alright.verifyPromise($promise)($alright.not($test))
-    }
+  rule infix { $promise:expr | not $test:expr } => {
+    (function(alright) {
+      return alright.verifyPromise($promise)(alright.not($test))
+    })($alright__load)
   }
-  case infix { $promise:expr | _ $test:expr } => {
-    letstx $alright = [makeIdent('alright', #{$test}[0])];
-    return #{
-      $alright.verifyPromise($promise)($test)
-    }
+  rule infix { $promise:expr | $test:expr } => {
+    (function(alright) {
+      return alright.verifyPromise($promise)($test)
+    })($alright__load)
   }
 }
 

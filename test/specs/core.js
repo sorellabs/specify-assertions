@@ -19,7 +19,6 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 var hifive = require('hifive');
-var alright = require('../alright');
 var claire = require('claire');
 var AssertionError = require('assertion-error');
 var _ = require('../../lib');
@@ -52,17 +51,23 @@ function fromFuture(f) {
 module.exports = spec('Core', function (it, spec$2) {
     spec$2('verify()', function (it$2) {
         it$2('Should succeed with true if the validation is a success.', function () {
-            alright.verify(_.verify(true, _.ok).toString())(alright.equal('true to be ok'));
+            (function (alright) {
+                return alright.verify(_.verify(true, _.ok).toString())(alright.equal('true to be ok'));
+            }(typeof module !== 'undefined' && typeof require !== 'undefined' ? require('alright') : window.alright));
         });
         it$2('Should fail with an exception if the validation is a succes.', function () {
-            alright.verify(function () {
-                _.verify(false, _.ok);
-            })(_.raise(AssertionError));
+            (function (alright) {
+                return alright.verify(function () {
+                    _.verify(false, _.ok);
+                })(_.raise(AssertionError));
+            }(typeof module !== 'undefined' && typeof require !== 'undefined' ? require('alright') : window.alright));
         });
     });
     spec$2('verifyPromise()', function (it$2) {
         it$2('Should succeed with true if the validation is a success.', function () {
-            return alright.verifyPromise(_.verifyPromise(pinky(true), _.ok))(_.ok);
+            return function (alright) {
+                return alright.verifyPromise(_.verifyPromise(pinky(true), _.ok))(_.ok);
+            }(typeof module !== 'undefined' && typeof require !== 'undefined' ? require('alright') : window.alright);
         });
         it$2('Should fail with an exception if the validation is a succes.', function () {
             return checkFailure(_.verifyPromise(pinky(false), _.ok));
@@ -70,7 +75,9 @@ module.exports = spec('Core', function (it, spec$2) {
     });
     spec$2('verifyMonad()', function (it$2) {
         it$2('Should succeed with true if the validation is a success.', function () {
-            return alright.verifyPromise(fromMonad(_.verifyMonad(Future.of(true), _.ok)))(_.ok);
+            return function (alright) {
+                return alright.verifyPromise(fromMonad(_.verifyMonad(Future.of(true), _.ok)))(_.ok);
+            }(typeof module !== 'undefined' && typeof require !== 'undefined' ? require('alright') : window.alright);
         });
         it$2('Should fail with an exception if the validation is a succes.', function () {
             return checkFailure(fromMonad(_.verifyMonad(Future.of(false), _.ok)));
@@ -78,7 +85,9 @@ module.exports = spec('Core', function (it, spec$2) {
     });
     spec$2('verifyFuture()', function (it$2) {
         it$2('Should succeed with true if the validation is a success.', function () {
-            return alright.verifyPromise(fromFuture(_.verifyFuture(Future.of(true), _.ok)))(_.ok);
+            return function (alright) {
+                return alright.verifyPromise(fromFuture(_.verifyFuture(Future.of(true), _.ok)))(_.ok);
+            }(typeof module !== 'undefined' && typeof require !== 'undefined' ? require('alright') : window.alright);
         });
         it$2('Should fail with an exception if the validation is a succes.', function () {
             return checkFailure(fromFuture(_.verifyFuture(Future.of(false), _.ok)));
