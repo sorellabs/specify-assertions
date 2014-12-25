@@ -30,7 +30,7 @@
     "data.future": "^2.1.0"
   },
   "devDependencies": {
-    "browserify": "^3.33.0",
+    "browserify": "~8.0.1",
     "ink-docstrap": "git://github.com/robotlolita/docstrap",
     "jsdoc": "^3.3.0-alpha5",
     "hifive-tap": "~0.1.0",
@@ -39,7 +39,7 @@
     "laws": "~0.2.1",
     "claire": "^0.4.1",
     "sweet.js": "^0.5.0",
-    "es5-shim": "^2.3.0",
+    "es5-shim": "~4.0.5",
     "pinky": "^0.1.3"
   }
 }
