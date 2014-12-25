@@ -11,11 +11,11 @@
 		"template": "./node_modules/ink-docstrap/template"
 	},
 	"templates": {
-		"systemName": "alright",
+		"systemName": "Specify (assertions)",
 		"theme": "cerulean",
 		"linenums": true,
 		"navType": "vertical",
-		"copyright": "© 2014 Quildreen Motta",
+		"copyright": "© 2014 Origami Tower",
     "default": {
       "outputSourceFiles": true
     }

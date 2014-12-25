@@ -1,13 +1,11 @@
-alright
-=======
+specify-assertions
+==================
 
-[![Build Status](https://secure.travis-ci.org/hifivejs/alright.png?branch=master)](https://travis-ci.org/hifivejs/alright)
-[![NPM version](https://badge.fury.io/js/alright.png)](http://badge.fury.io/js/alright)
-[![Dependencies Status](https://david-dm.org/hifivejs/alright.png)](https://david-dm.org/hifivejs/alright)
-[![stable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
-
-[![browser support](http://ci.testling.com/hifivejs/alright.png)](http://ci.testling.com/hifivejs/alright)
-
+[![Build status](https://img.shields.io/travis/origamitower/specify-assertions/master.svg?style=flat)](https://travis-ci.org/origamitower/specify-assertions)
+[![NPM version](https://img.shields.io/npm/v/specify-assertions.svg?style=flat)](https://npmjs.org/package/specify-assertions)
+[![Dependencies status](https://img.shields.io/david/origamitower/specify-assertions.svg?style=flat)](https://david-dm.org/origamitower/specify-assertions)
+![Licence](https://img.shields.io/npm/l/specify-assertions.svg?style=flat&label=licence)
+![Stable API](https://img.shields.io/badge/API_stability-stable-green.svg?style=flat)
 
 Beautiful assertion library.
 
@@ -37,26 +35,25 @@ Beautiful assertion library.
 Using the Sweet.js macros:
 
 ```js
-// for macros to work, you need to use 'alright' as your identifier
-var alright = require('alright')
+var _ = require('specify-assertions')
 
 // simple assertions
 add(a)(b) => a + b
 add(a)(b) => not a + b
 
 // anything goes assertions
-add(a)(b) should equal(a + b)
-add(a)(b) should not equal(a + b)
+add(a)(b) should _.equal(a + b)
+add(a)(b) should not _.equal(a + b)
 
 // asynchronous assertions with pure fantasy-land monads, or Promises/A+
-asyncAdd(a)(b) will equal(a + b)
-asyncAdd(a)(b) will not equal(a + b)
+asyncAdd(a)(b) will _.equal(a + b)
+asyncAdd(a)(b) will not _.equal(a + b)
 ```
 
 Using vanilla JavaScript:
 
 ```js
-var _ = require('alright')
+var _ = require('specify-assertions')
 
 // Use verify for synchronous assertions
 _.verify(add(a)(b))(_.equals(a + b))
@@ -69,68 +66,19 @@ _.verifyMonad(asyncAdd(a)(b))(_.equals(a + b))
 
 ## Installing
 
-The easiest way is to grab it from NPM. If you're running in a Browser
-environment, you can use [Browserify][]
-
-    $ npm install alright
+    $ npm install specify-assertions
 
 
-### Using with CommonJS
+## Tests
 
-If you're not using NPM, [Download the latest release][release], and require
-the `alright.umd.js` file:
-
-```js
-var Alright = require('alright')
-```
-
-
-### Using with AMD
-
-[Download the latest release][release], and require the `alright.umd.js`
-file:
-
-```js
-require(['alright'], function(Alright) {
-  ( ... )
-})
-```
-
-
-### Using without modules
-
-[Download the latest release][release], and load the `alright.umd.js`
-file. The properties are exposed in the global `Alright` object:
-
-```html
-<script src="/path/to/alright.umd.js"></script>
-```
-
-
-### Compiling from source
-
-If you want to compile this library from the source, you'll need [Git][],
-[Make][], [Node.js][], and run the following commands:
-
-    $ git clone git://github.com/hifivejs/alright.git
-    $ cd alright
     $ npm install
-    $ make bundle
-    
-This will generate the `dist/alright.umd.js` file, which you can load in
-any JavaScript environment.
+    $ make test
 
-    
+
 ## Documentation
 
-You can [read the documentation online][docs] or build it yourself:
-
-    $ git clone git://github.com/hifivejs/alright.git
-    $ cd alright
     $ npm install
     $ make documentation
-
-Then open the file `docs/index.html` in your browser.
 
 
 ## Platform support
@@ -141,18 +89,9 @@ platforms by the use of shims. Just include [es5-shim][] :)
 
 ## Licence
 
-Copyright (c) 2014 Quildreen Motta.
+Copyright (c) 2013-2014 [Origami Tower](http://www.origamitower.com).
 
-Released under the [MIT licence](https://github.com/hifivejs/alright/blob/master/LICENCE).
+This module is part of the [Specify framework][Specify], and released under the
+[MIT](http://origami-tower.mit-license.org/) licence.
 
-<!-- links -->
-[Fantasy Land]: https://github.com/fantasyland/fantasy-land
-[Browserify]: http://browserify.org/
-[Git]: http://git-scm.com/
-[Make]: http://www.gnu.org/software/make/
-[Node.js]: http://nodejs.org/
-[es5-shim]: https://github.com/kriskowal/es5-shim
-[docs]: http://alright.readthedocs.org/
-<!-- [release: https://github.com/hifivejs/alright/releases/download/v$VERSION/alright-$VERSION.tar.gz] -->
-[release]: https://github.com/hifivejs/alright/releases/download/v1.1.0/alright-1.1.0.tar.gz
-<!-- [/release] -->
+[Specify]: https://github.com/origamitower/specify

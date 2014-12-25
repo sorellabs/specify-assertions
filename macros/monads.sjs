@@ -1,7 +1,7 @@
 macro $alright__load {
   rule {} => {
-    typeof module !== 'undefined' && typeof require !== 'undefined'?  require('alright')
-    :                                                                 window.alright
+    typeof module !== 'undefined' && typeof require !== 'undefined'?  require('specify-assertions')
+    :                                                                 window.Specify.Assertions
   }
 }
 

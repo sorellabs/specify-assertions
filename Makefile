@@ -35,10 +35,8 @@ bundle: dist/$(BUNDLE).umd.js
 minify: dist/$(BUNDLE).umd.min.js
 
 documentation:
-	cd docs && make html
 	$(jsdoc) --configure jsdoc.conf.json
 	ABSPATH=$(shell cd "$(dirname "$0")"; pwd) $(MAKE) clean-docs
-	cp -r docs/api docs/build/html
 
 clean-docs:
 	perl -pi -e "s?$$ABSPATH/??g" ./docs/api/*.html
@@ -63,13 +61,4 @@ publish: clean
 	npm install
 	npm publish
 
-bump:
-	node tools/bump-version.js $$VERSION_BUMP
-
-bump-feature:
-	VERSION_BUMP=FEATURE $(MAKE) bump
-
-bump-major:
-	VERSION_BUMP=MAJOR $(MAKE) bump
-
-.PHONY: test bump bump-feature bump-major publish package clean documentation
+.PHONY: test publish package clean documentation
